@@ -1,0 +1,13 @@
+{
+  "name": "cannonistic_server",
+  "version": "1.0.0",
+  "description": "Cannonistic, a simple game programmed as a group project at university",
+  "author": "Yvo von Känel <majortwip@comstock.ch>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
