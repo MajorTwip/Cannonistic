@@ -1,0 +1,2 @@
+# Cannonistic
+A simple game
