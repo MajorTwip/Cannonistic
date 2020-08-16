@@ -26,8 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="104490c8-f922-40ea-a38a-0c77e3ba22ab" name="Default Changelist" comment="chat completed">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +84,17 @@
       <workItem from="1597519693909" duration="1623000" />
       <workItem from="1597521631715" duration="3502000" />
       <workItem from="1597525179734" duration="68000" />
+      <workItem from="1597525357202" duration="416000" />
+      <workItem from="1597556028882" duration="1302000" />
     </task>
+    <task id="LOCAL-00001" summary="chat completed">
+      <created>1597525395173</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597525395173</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +124,10 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="chat completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="chat completed" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="254" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597521971768">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -139,5 +153,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="49" y="199" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1597524382919" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1597525403661">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597525403661" />
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597556162818">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597556162818" />
   </component>
 </project>
