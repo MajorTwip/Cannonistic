@@ -2,12 +2,10 @@ var User = require("./game").User;
 var Room = require("./game").Room;
 var room1 = new Room();
 
-
 const WebSocket = require('ws');
+const webSocketServer = new WebSocket.Server({ port: 80 });
 
-const webSocketServer = new WebSocket.Server({ port: 8088 });
-
-console.log("Listening on Port 8088")
+console.log("Listening on Port 80")
 
 webSocketServer.on('connection', function (socket) {
     var user = new User(socket);
