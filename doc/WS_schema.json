@@ -13,17 +13,20 @@
       "type": "string",
       "enum": [
         "establish",
+        "setupass",
         "newchat",
         "chat",
+        "initgame",
         "newturn",
-        "turn"
+        "turn",
+        "userevent"
       ],
       "title": "Meldungstyp",
       "default": "chat"
     },
     "gameid": {
       "default": "",
-      "description": "Die GameID, diese ist abhängig vom Spieler und dem Spiel",
+      "description": "Die GameID, diese ist abhängig vom Spieler und dem Spiel, leer für neues Spiel",
       "title": "GameID",
       "type": "string"
     },
@@ -54,6 +57,31 @@
         },
         "required": [
           "newchatmessage"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "setupass"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "newname": {
+            "type": "string",
+            "title": "new Name"
+          },
+          "newpass": {
+            "type": "string",
+            "title": "new Password",
+            "description": "Passworthash in SHA256"
+          }
+        },
+        "required": [
+          "newpass"
         ]
       }
     },
@@ -93,6 +121,75 @@
           "datetime",
           "sender",
           "chatmessage"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "initgame"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "guns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "gunnr": {
+                  "title": "Geschütznummer",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "x": {
+                  "title": "X",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "title": "Y",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "health": {
+                  "title": "Geschützzustand",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1024,
+                  "default": 1024
+                }
+              },
+              "required": [
+                "gunnr",
+                "x",
+                "y"
+              ]
+            }
+          },
+          "newwind": {
+            "type": "integer",
+            "minimum": -1024,
+            "maximum": 1024,
+            "title": "Wind",
+            "description": "negativ ist nach links"
+          },
+          "gameid": {
+            "type": "string",
+            "title": "GameID"
+          },
+          "enygameid": {
+            "type": "string",
+            "title": "Enemys GameID"
+          }
+        },
+        "required": [
+          "guns",
+          "newwind",
+          "gameid",
+          "enygameid"
         ]
       }
     },
@@ -180,6 +277,39 @@
             "default": "stg",
             "title": "Geschosstyp"
           },
+          "guns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "gunnr": {
+                  "title": "Geschütznummer",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "x": {
+                  "title": "X",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "title": "Y",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "health": {
+                  "title": "Geschützzustand",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1024,
+                  "default": 1024
+                }
+              },
+              "required": [
+                "gunnr"
+              ]
+            }
+          },
           "newwind": {
             "type": "integer",
             "minimum": -1024,
@@ -194,6 +324,36 @@
           "elevation",
           "gunstates",
           "newwind"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "userevent"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "eventtype": {
+            "type": "string",
+            "title": "Eventtype",
+            "enum": [
+              "join",
+              "left",
+              "surrender"
+            ]
+          },
+          "enyname": {
+            "type": "string",
+            "title": "Enemy Name"
+          }
+        },
+        "required": [
+          "eventtype",
+          "enyname"
         ]
       }
     }
