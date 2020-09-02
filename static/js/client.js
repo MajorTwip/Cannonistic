@@ -1,10 +1,13 @@
+const connection = new WebSocket('ws://' + window.location.hostname);
 
-const connection = new WebSocket('ws://localhost:8088');
+connection.onopen = function(){
+    connection.send("connected");
+    console.log("connected");
+}
 
-connection.onopen = () => connection.send("connected");
-
-connection.onclose = () => {
+connection.onclose = function(){
     console.error('disconnected');
+    console.log("disconnected");
 };
 
 connection.onerror = (error) => {
@@ -28,11 +31,14 @@ connection.onmessage = (event) => {
 
 */
 
-document.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    let name = document.querySelector('#name').value;
-    let message = document.querySelector('#chat-input').value;
-    connection.send(name + ":" + message);
+$('#chatform').submit(function(e){
+    e.preventDefault();
+    var msg = new Object();
+    msg.type = "newchat";
+    console.log($("#gameid").val());
+    msg.gameid = $('#gameid').val();
+    msg.newchatmessage = $('#chat-input').val();
+    connection.send(JSON.stringify(msg));
     document.querySelector('#chat-input').value = '';
 });
 

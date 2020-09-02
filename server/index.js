@@ -22,11 +22,10 @@ var expressws = require('express-ws')(app);
 app.use(express.static('static'));
 
 //Defining the WS server.
+//Delegate handlich to ws_handler
+var ws_handler = require("./ws_handler");
 app.ws('/', function(ws, req) {
-    ws.on('message', function(msg) {
-      console.log(msg);
-    });
-    console.log('socket', req.testing);
+    ws.on('message', (msg)=>ws_handler.handlemsg(msg));
   });
 
 app.listen(PORT, () => {
