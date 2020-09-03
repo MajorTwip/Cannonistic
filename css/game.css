@@ -1,0 +1,4 @@
+canvas{
+    background: dimgrey url("../images/background.png") center center;
+    background-size: cover;
+}
