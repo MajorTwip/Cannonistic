@@ -1,3 +1,103 @@
-#cannon_right{
+body{
+    background-color: dimgray;
+}
+
+.banner{
+    width: 97vw;
+    padding: 10px 10px 10px 10px;
+    display: none;
+}
+
+.banner h1{
+    font-size: 5vw;
+    animation: blinker 5s linear infinite;
+    animation: color-change 5s infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes color-change {
+    0% { color: red; }
+    25% { color: yellow; }
+    50% { color: blue; }
+    75% { color: green; }
+    100% { color: red; }
+}
+
+
+.banner h2{
+    color: white;
+    font-size: 3vw;
+    padding: 0px 10px 0px 10px;
+}
+
+.banner h3{
+    color: white;
+    font-size: 2vw;
+    padding: 0px 10px 0px 10px;
+}
+
+#cannon_right {
+    padding: 0px 5vw 0px 5vw;
+    height: 12%;
+    width: 12%;
     transform: scaleX(-1);
+}
+
+#cannon_left {
+    padding: 0px 5vw 0px 5vw;
+    height: 12%;
+    width: 12%;
+}
+
+.game_buttons{
+    padding: 2vw 0vw 2vw 0vw;
+
+}
+
+#play_button{
+
+}
+
+#invite_player_button{
+
+}
+
+#can_game, .chat{
+    width: 97vw;
+    padding: 1vw 0vw 1vw 0px;
+
+}
+
+#name, #chat-input{
+    width: 95vw;
+    min-width: 100px;
+    max-height: 10px;
+    padding: 10px 10px 10px 10px;
+
+}
+
+#chat-input{
+    max-lines: 200;
+}
+
+#send{
+    paddiing: 10px 10px 10px 10px;
+    font-size: 2vw;
+}
+
+
+@media only screen and (min-width: 788px) {
+    .banner{
+        display: block;
+    }
+
+}
+
+@media only screen and (min-width: 1000px) {
+
 }

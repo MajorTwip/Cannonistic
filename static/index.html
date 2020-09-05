@@ -2,31 +2,42 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cannonistic</title>
     <link rel="stylesheet" href="../css/game.css">
     <link rel="stylesheet" href="../css/mainpage.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     </head>
 </head>
 
 <body>
 
-    <div id="Banner" align="center">
-        <h1><img id="cannon_right" src="../images/cannon.png" height="100" width="146">Cannonistic<img id="cannon_left" src="../images/cannon.png" height="100" width="146"></h1>
+    <div class="banner" id="Banner" align="center">
+        <h1 id="title"><img id="cannon_right" src="../images/cannon.png">Cannonistic<img id="cannon_left" src="../images/cannon.png"></h1>
         <h2>Wer hat die beste Artillerie!</h2>
+        <h3>Who dares wins!!!</h3>
     </div>
 
-    <div id="canvas" align="center">
-        <canvas id="can_game" width="800" height="600" style="font-size:10vw">Scene</canvas>
+    <div class="game_buttons">
+        <button id="play_button">Play</button>
+        <button id="invite_player_button">Invite Player</button>
     </div>
 
-    <div id="chat">
-        <textarea id="name" rows="1" cols="20" style="font-size:2vw" placeholder="Name"></textarea>
+    <div class="canvas" id="canvas">
+        <!--<canvas id="can_game" width="800" height="600" style="font-size:10vw">Scene</canvas>-->
+        <canvas id="can_game" ></canvas>
+
+    </div>
+
+    <div class="chat" id="chat">
+        <!--<textarea id="name" rows="1" cols="20" style="font-size:2vw" placeholder="Name"></textarea>-->
+        <textarea id="name" placeholder="Name"></textarea>
 
         <form id="chatform">
-            <textarea rows="1" cols="80" id="chat-input" style="font-size:2vw" placeholder="Nachricht eingeben"></textarea>
+            <!--<textarea rows="1" cols="80" id="chat-input" style="font-size:2vw" placeholder="Nachricht eingeben"></textarea>-->
+            <textarea id="chat-input" placeholder="Nachricht eingeben"></textarea>
             <br>
-            <button type="submit" id="send" style="font-size:2vw">Senden</button>
+            <button type="submit" id="send">Send</button>
         </form>
 
         <ul id="chat-history"></ul>

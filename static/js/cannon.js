@@ -13,7 +13,7 @@ var velo = 0,
     rad = 2;
 var ball = { x: pos.x, y: pos.y };
 var time = 0.1;
-var angle = 10;
+var angle = 45;
 var gravity = 9.81;
 var vuln = 20;
 
@@ -194,12 +194,12 @@ handleInput = function() {
         var center_y = (offset.top) + (barrel_mirrored.height / 2);
         var mouse_x = e.pageX;
         var mouse_y = e.pageY;
-        var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y)*0.4;
+        var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y)*(-0.4);
         var degree = (radians * (180 / Math.PI) * -1) + 90;
         console.log(degree*Math.PI/180);
 
         //drawImage(cannon_left, cannon_left.width/2, cannon_left.height/2,0.05,degree);
-        elevateBarrel(barrel_mirrored, -cannon_with +50 , height - cannon_height - 50, 0.1, degree);
+        elevateBarrel(barrel_mirrored, -cannon_with +335 , height - 110, 0.1, degree);
         //drawRotated(cannon_left, degree);
         //cannon.style.transform = "rotate("+ degree +"deg)";
 
