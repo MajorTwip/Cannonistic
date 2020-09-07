@@ -1,3 +1,4 @@
+
 // Get canvas and context
 var canvas = document.getElementById("can_game");
 var ctx = canvas.getContext("2d");
@@ -8,12 +9,12 @@ var height = canvas.height = window.innerHeight - 100;
 
 // Trajectory variables
 var pos = { x: 100, y: height - 100 };
-var velo = 0,
+var velo = 10,
     corner = 50,
     rad = 2;
 var ball = { x: pos.x, y: pos.y };
 var time = 0.1;
-var angle = 45;
+var angle = math.PI/4;
 var gravity = 9.81;
 var vuln = 20;
 
@@ -70,8 +71,8 @@ function drawCannons(){
 */
     var tank = new Image();
     var barrel = new Image();
-    tank.src = '../images/tank.png';
-    barrel.src = '../images/tank_barrel.png';
+    tank.src = 'images/tank.png';
+    barrel.src = 'images/tank_barrel.png';
 
     // scaling tank and barrel
     var cannon_resized = scaleImage(tank, 0);
@@ -149,16 +150,21 @@ function stopVelo(){
 function trajectory(){
     time = time + 0.1;
 
-    var moveX = (-velo * Math.cos(angle) * time)/width;
-    var moveY = (velo * Math.sin(angle) * time - gravity/2*time)/height;
+    //var moveX = (-velo * Math.cos(angle) * time)/width;
+    //var moveY = (velo * Math.sin(angle) * time - gravity/2*time)/height;
 
+    var moveX = ball.x + 1;
+    var moveY = -(gravity/(2*velo^2*math.cos(angle)^2))*ball.x^2 + math.tan(angle)*ball.x;
+
+    console.log(moveX, moveY);
     if (ball.x > canvas.width - rad || ball.x < rad ||
         ball.y > canvas.height - rad || ball.y < rad){
             stopFire();
     }
 
-    ball.x += moveX;
-    ball.y += moveY;
+    //ball.x += moveX;
+    ball.x = moveX;
+    ball.y = moveY;
     //console.log("X:" + ball.x + " Y:" + ball.y);
 }
 
