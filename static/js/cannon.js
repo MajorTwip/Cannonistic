@@ -32,7 +32,7 @@ $(document).ready(function(){
 
 // places both cannons in the field
 
-
+// To adjust scaleFactor
 function scaleImage(image, scaleFactor){
     image.height = 200;
     image.width = image.height/1.4;
@@ -59,16 +59,6 @@ var cannon_with;
 
 function drawCannons(){
 
-    /*
-    //c_height = 150;
-    //c_width = c_height/1.4;
-    cannon_left = scaleImage();
-    //console.log(cannon_left);
-    //console.log(cannon_left);
-    cannon_right = scaleImage();
-    c_height = cannon_left.height;
-    c_width = c_height/1.4;
-*/
     var tank = new Image();
     var barrel = new Image();
     tank.src = 'images/tank.png';
@@ -77,23 +67,14 @@ function drawCannons(){
     // scaling tank and barrel
     var cannon_resized = scaleImage(tank, 0);
     var barrel_resized = scaleImage(barrel, 0);
-    //var cannon_right = scaleImage();
 
     // mirroring tank and barrel to the left
-    cannon_mirrored = mirrorImage(ctx, cannon_left, 0, 0, true, false);
+    cannon_mirrored = mirrorImage(ctx, tank, 0, 0, true, false);
     barrel_mirrored = mirrorImage(ctx, barrel, 0, 0, true, false);
 
     x_pos = -100;
     y_pos = scalingFactor * height - cannon_resized.height;
     sym_x_pos = (scalingFactor-0.05) * width - cannon_resized.width;
-
-/*
-    can_left = mirrorImage(ctx, cannon_left, 0, 0, true, false);
-    bar_left = mirrorImage(ctx, barrel, 0, 0, true, false);
-
-    can_right = mirrorImage(ctx, cannon_right, 0, 0, false, true);
-    bar_right = mirrorImage(ctx, barrel, 0, 0, false, true);
-*/
 
     //ctx.drawImage(barrel,x_pos, y_pos, c_height, c_width);
     cannon_height = cannon_resized.height;
@@ -104,21 +85,24 @@ function drawCannons(){
     //ctx.drawImage(cannon_mirrored, x_pos, y_pos, cannon_height, cannon_with);
     //ctx.drawImage(barrel_mirrored,x_pos, y_pos, cannon_height, cannon_with);
 
-    ctx.drawImage(tank, sym_x_pos, y_pos, cannon_height, cannon_with);
-    ctx.drawImage(barrel, sym_x_pos, y_pos, cannon_height, cannon_with);
+    // draw right cannon
+    ctx.drawImage(cannon_mirrored, -canvas.width + 200, y_pos, cannon_height, cannon_with);
+    ctx.drawImage(barrel_mirrored, -canvas.width + 200, y_pos, cannon_height, cannon_with);
 
-    ctx.drawImage(cannon_resized, -cannon_with, height - cannon_height, cannon_height, cannon_with);
-    ctx.drawImage(barrel_resized, -cannon_with, height - cannon_height, cannon_height, cannon_with);
+    // draw left cannon
+    ctx.drawImage(cannon_resized, x_pos, y_pos, cannon_height, cannon_with);
+    ctx.drawImage(barrel_resized, x_pos, y_pos, cannon_height, cannon_with);
     ctx.restore();
 }
 
-function elevateBarrel(image, x, y, scale, rotation){
+function elevateBarrel(image, x, y, scale, degree){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.save();
     ctx.translate(image.width/2, image.height/2);
+    //ctx.translate(200, 500);
     ctx.setTransform(scale, 0, 0, -scale, x, y); // sets scale and origin
-    ctx.rotate(rotation);
-    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    ctx.rotate(degree);
+    //ctx.drawImage(image, -image.width / 2, -image.height / 2);
     //ctx.drawImage(image, 500, 400);
 
     ctx.restore();
@@ -146,6 +130,9 @@ function stopVelo(){
     allowVelo = false;
 }
 
+
+var moveX = -1;
+var moveY = -1;//-(gravity/(2*velo**2*math.cos(angle)**2))*ball.x**2 + math.tan(angle)*ball.x;
 // Calculates the trajectory of the bullet
 function trajectory(){
     time = time + 0.1;
@@ -153,8 +140,7 @@ function trajectory(){
     //var moveX = (-velo * Math.cos(angle) * time)/width;
     //var moveY = (velo * Math.sin(angle) * time - gravity/2*time)/height;
 
-    var moveX = ball.x + 1;
-    var moveY = -(gravity/(2*velo^2*math.cos(angle)^2))*ball.x^2 + math.tan(angle)*ball.x;
+
 
     console.log(moveX, moveY);
     if (ball.x > canvas.width - rad || ball.x < rad ||
@@ -163,8 +149,8 @@ function trajectory(){
     }
 
     //ball.x += moveX;
-    ball.x = moveX;
-    ball.y = moveY;
+    ball.x += moveX;
+    ball.y += moveY;
     //console.log("X:" + ball.x + " Y:" + ball.y);
 }
 
@@ -201,11 +187,16 @@ handleInput = function() {
         var mouse_x = e.pageX;
         var mouse_y = e.pageY;
         var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y)*(-0.4);
-        var degree = (radians * (180 / Math.PI) * -1) + 90;
-        console.log(degree*Math.PI/180);
+        //var radians = Math.atan2(mouse_y - center_y, mouse_x - center_x);
+        var degree = (radians * (180 / Math.PI) * -1)+90;
+        console.log("rad:" + radians );
+
+        console.log("degree:" + degree);
 
         //drawImage(cannon_left, cannon_left.width/2, cannon_left.height/2,0.05,degree);
-        elevateBarrel(barrel_mirrored, -cannon_with +335 , height - 110, 0.1, degree);
+        //if (degree > 100 && degree < 110) {
+        elevateBarrel(barrel_mirrored, - cannon_with + 335 , height - 110, 0.1, degree) ;
+        //}
         //drawRotated(cannon_left, degree);
         //cannon.style.transform = "rotate("+ degree +"deg)";
 
