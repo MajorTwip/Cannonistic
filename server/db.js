@@ -1,4 +1,4 @@
-
+var _db;
 
 function CanonDB(){
 
@@ -28,10 +28,22 @@ function CanonDB(){
                 require("./db_createtables").create(database);
             }
         });
-
+        db=database;
     });
 }
 
+function newgame(gameid,enygameid){
+    var sql = "INSERT INTO games VALUES (?,?)"
+    var params = [gameid,enygameid];
+    db.run(sql,params, function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        // get the last insert id
+        console.log(`A row has been inserted with rowid ${this.lastID}`);});
+}
+
 module.exports = {
-    CanonDB : CanonDB
+    CanonDB : CanonDB,
+    newgame : newgame
 }

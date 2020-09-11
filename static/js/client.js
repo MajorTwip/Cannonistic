@@ -1,7 +1,7 @@
 const connection = new WebSocket('ws://' + window.location.hostname);
 
 connection.onopen = function(){
-    connection.send("connected");
+    //connection.send("connected");
     console.log("connected");
 }
 
