@@ -1,6 +1,6 @@
-//const connection = new WebSocket('ws://' + window.location.hostname);
+const connection = new WebSocket('ws://' + window.location.hostname);
 
-const connection = new WebSocket();
+//const connection = new WebSocket();
 
 connection.onopen = function(){
     //connection.send("connected");
