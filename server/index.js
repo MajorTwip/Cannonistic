@@ -8,8 +8,8 @@ var VERSION = "0.0.2"
 console.log(`Starting Cannoninistic Server V ${VERSION}`);
 
 //Initializig Database
-var CanonDB = require('./db');
-global.db = new CanonDB.CanonDB();
+var db = require('./db');
+db.init();
 
 const PORT = 80;
 

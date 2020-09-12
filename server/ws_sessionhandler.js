@@ -9,7 +9,7 @@ function generateGameID(len) {
 }
 
 
-function establish(msg, sock){
+async function establish(msg, sock){
 
     //prepare response
     var response = new Object();
@@ -17,8 +17,11 @@ function establish(msg, sock){
 
     if(msg.gameid == ""){
         //new game
-        response.gameid = generateGameID(12);
-        response.enygameid = generateGameID(12);
+        do{
+            response.gameid = generateGameID(12);
+            response.enygameid = generateGameID(12);
+        }while(await db.gameIdcollision(response.gameid, response.enygameid));
+
         response.guns = new Array();
         response.guns[0] = new Object();
         response.guns[0].gunnr = 0;
@@ -29,8 +32,7 @@ function establish(msg, sock){
         response.guns[1].x=50;
         response.guns[1].y=950;
         response.newwind = 0;
-
-        //db.newgame(response.gameid, response.enygameid);
+        db.newgame(response.gameid, response.enygameid);
     }
 
 
