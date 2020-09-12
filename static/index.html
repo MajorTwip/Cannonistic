@@ -18,14 +18,13 @@
         <h3>Who dares wins!!!</h3>
     </div>
 
-    <div class="game_buttons">
-        <button id="play_button">Play</button>
-        <button id="invite_player_button">Invite Player</button>
-    </div>
 
-    <div class="canvas" id="canvas">
-        <!--<canvas id="can_game" width="800" height="600" style="font-size:10vw">Scene</canvas>-->
-        <canvas id="can_game" ></canvas>
+    <input type="button" id="btn_newgame" value="New Game">
+    <input type="text" id="txt_gameId" placeholder="GameID">
+    <input type="button" id="btn_joingame" value="Join Game by GameID">
+
+    <div id="canvas" align="center">
+        <canvas id="can_game" width="800" height="600" style="font-size:10vw">Scene</canvas>
 
     </div>
 
@@ -43,10 +42,10 @@
         <ul id="chat-history"></ul>
     </div>
 
-
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
     <script src="js/client.js"></script>
+    <script src="js/login.js"></script>
     <script src="js/cannon.js"></script>
 </body>
 </html>

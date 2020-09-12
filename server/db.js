@@ -1,6 +1,6 @@
+var _db;
 
-
-function CanonDB(){
+function init(){
 
     console.log("initializing DB");
     var sqlite3 = require('sqlite3').verbose();
@@ -28,10 +28,46 @@ function CanonDB(){
                 require("./db_createtables").create(database);
             }
         });
-
+        _db=database;
     });
 }
 
+function gameIdcollision(gameid,enygameid){
+    //check if gameids unused
+    var sql = "SELECT COUNT(*) FROM games WHERE gameid1 = ? OR gameid1 = ? OR gameid2 = ? OR gameid2 = ?"
+    var params = [gameid,enygameid,gameid,enygameid];
+    return new Promise(function(resolve,reject){
+        _db.get(sql, params, (err, row) => {
+            if (err) {
+                console.warn(err.message);
+                reject(err);
+            }
+            if(row["COUNT(*)"]>0){
+                console.log("gameId Duplicate");
+                resolve(true);
+            }else{
+                resolve(false);
+            }
+        });
+    });
+
+}
+
+
+function newgame(gameid,enygameid){
+    
+        var sql = "INSERT INTO games VALUES (?,?)"
+        var params = [gameid,enygameid];
+        _db.run(sql,params, function(err) {
+            if (err) {
+              return console.log(err.message);
+            }
+            console.log(`A game has been created: ${this.lastID}`);
+        });
+}
+
 module.exports = {
-    CanonDB : CanonDB
+    init : init,
+    gameIdcollision: gameIdcollision,
+    newgame : newgame
 }

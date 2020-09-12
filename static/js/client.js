@@ -3,7 +3,7 @@
 const connection = new WebSocket();
 
 connection.onopen = function(){
-    connection.send("connected");
+    //connection.send("connected");
     console.log("connected");
 }
 

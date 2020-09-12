@@ -8,8 +8,8 @@ var VERSION = "0.0.2"
 console.log(`Starting Cannoninistic Server V ${VERSION}`);
 
 //Initializig Database
-var CanonDB = require('./db');
-var db = new CanonDB.CanonDB();
+var db = require('./db');
+db.init();
 
 const PORT = 80;
 
@@ -25,7 +25,7 @@ app.use(express.static('static'));
 //Delegate handlich to ws_handler
 var ws_handler = require("./ws_handler");
 app.ws('/', function(ws, req) {
-    ws.on('message', (msg)=>ws_handler.handlemsg(msg));
+    ws.on('message', (msg)=>ws_handler.handlemsg(msg,ws));
   });
 
 app.listen(PORT, () => {
