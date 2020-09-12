@@ -2,19 +2,22 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Cannonistic</title>
-    <link rel="stylesheet" href="../css/game.css">
-    <link rel="stylesheet" href="../css/mainpage.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cannonistic</title>
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/mainpage.css">
+
     </head>
 </head>
 
 <body>
 
-    <div id="Banner" align="center">
-        <h1><img id="cannon_right" src="../images/cannon.png" height="100" width="146">Cannonistic<img id="cannon_left" src="../images/cannon.png" height="100" width="146"></h1>
+    <div class="banner" id="Banner" align="center">
+        <h1 id="title"><img id="cannon_right" src="images/cannon.png">Cannonistic<img id="cannon_left" src="images/cannon.png"></h1>
         <h2>Wer hat die beste Artillerie!</h2>
+        <h3>Who dares wins!!!</h3>
     </div>
+
 
     <input type="button" id="btn_newgame" value="New Game">
     <input type="text" id="txt_gameId" placeholder="GameID">
@@ -22,21 +25,25 @@
 
     <div id="canvas" align="center">
         <canvas id="can_game" width="800" height="600" style="font-size:10vw">Scene</canvas>
+
     </div>
 
-    <div id="chat">
-        <textarea id="name" rows="1" cols="20" style="font-size:2vw" placeholder="Name"></textarea>
+    <div class="chat" id="chat">
+        <!--<textarea id="name" rows="1" cols="20" style="font-size:2vw" placeholder="Name"></textarea>-->
+        <textarea id="name" placeholder="Name"></textarea>
 
         <form id="chatform">
-            <textarea rows="1" cols="80" id="chat-input" style="font-size:2vw" placeholder="Nachricht eingeben"></textarea>
+            <!--<textarea rows="1" cols="80" id="chat-input" style="font-size:2vw" placeholder="Nachricht eingeben"></textarea>-->
+            <textarea id="chat-input" placeholder="Nachricht eingeben"></textarea>
             <br>
-            <button type="submit" id="send" style="font-size:2vw">Senden</button>
+            <button type="submit" id="send">Send</button>
         </form>
 
         <ul id="chat-history"></ul>
     </div>
 
     <script src="js/jquery-3.5.1.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
     <script src="js/client.js"></script>
     <script src="js/login.js"></script>
     <script src="js/cannon.js"></script>

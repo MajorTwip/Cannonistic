@@ -1,4 +1,6 @@
-const connection = new WebSocket('ws://' + window.location.hostname);
+//const connection = new WebSocket('ws://' + window.location.hostname);
+
+const connection = new WebSocket();
 
 connection.onopen = function(){
     //connection.send("connected");
@@ -42,7 +44,7 @@ $('#chatform').submit(function(e){
     document.querySelector('#chat-input').value = '';
 });
 
-/*
+
 $("#send").click(sendMessage());
 
 $("#chat-input").keypress(function (event) {
@@ -53,7 +55,7 @@ $("#chat-input").keypress(function (event) {
 
 
 
-
+/*
 function sendMessage() {
     var message = $("#chat-input").val();
     console.log(message);
@@ -62,10 +64,10 @@ function sendMessage() {
 }
 */
 
-/*
+
 (function ($) {
     $(function () {
         alert("jquery-test");
     });
 })(jQuery);
-*/
+
