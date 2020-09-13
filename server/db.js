@@ -50,6 +50,23 @@ function gameIdcollision(gameid,enygameid){
             }
         });
     });
+}
+
+
+function getGame(gameid){
+    //check if gameids unused
+    var sql = "SELECT * FROM games WHERE gameid1 = ? OR gameid2 = ?"
+    var params = [gameid,gameid];
+    return new Promise(function(resolve,reject){
+        _db.get(sql, params, (err, row) => {
+            if (err) {
+                console.warn(err.message);
+                reject(err);
+            }else{
+                resolve(row);
+            }
+        });
+    });
 
 }
 
@@ -69,5 +86,6 @@ function newgame(gameid,enygameid){
 module.exports = {
     init : init,
     gameIdcollision: gameIdcollision,
+    getGame:getGame,
     newgame : newgame
 }

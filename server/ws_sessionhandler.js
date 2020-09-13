@@ -1,4 +1,5 @@
 const db = require("./db");
+const games = require("./directory");
 
 //generiert eine neue gameID
 function generateGameID(len) {
@@ -10,33 +11,34 @@ function generateGameID(len) {
 
 
 async function establish(msg, sock){
-
     //prepare response
-    var response = new Object();
-    response.type = "initgame";
+    var game = new Object();
+    game.type = "initgame";
 
     if(msg.gameid == ""){
         //new game
         do{
-            response.gameid = generateGameID(12);
-            response.enygameid = generateGameID(12);
-        }while(await db.gameIdcollision(response.gameid, response.enygameid));
-
-        response.guns = new Array();
-        response.guns[0] = new Object();
-        response.guns[0].gunnr = 0;
-        response.guns[0].x=50;
-        response.guns[0].y=50;
-        response.guns[1] = new Object();
-        response.guns[1].gunnr = 1;
-        response.guns[1].x=50;
-        response.guns[1].y=950;
-        response.newwind = 0;
-        db.newgame(response.gameid, response.enygameid);
+            game.gameid = generateGameID(12);
+            game.enygameid = generateGameID(12);
+        }while(await db.gameIdcollision(game.gameid, game.enygameid));
+        game.id = 1
+        game.guns = new Array();
+        game.guns[0] = new Object();
+        game.guns[0].gunnr = 0;
+        game.guns[0].x=50;
+        game.guns[0].y=50;
+        game.guns[1] = new Object();
+        game.guns[1].gunnr = 1;
+        game.guns[1].x=50;
+        game.guns[1].y=950;
+        game.newwind = 0;
+        //db.newgame(game.gameid, game.enygameid);
+    }else{
+        game = await db.getGame(msg.gameid);
     }
-
-
-    sock.send(JSON.stringify(response));
+    games.addPlayer(game);
+    sock.send(JSON.stringify(game));
+    console.log(games.getGames());
 }
 
 module.exports = {

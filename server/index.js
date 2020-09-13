@@ -24,9 +24,7 @@ app.use(express.static('static'));
 //Defining the WS server.
 //Delegate handlich to ws_handler
 var ws_handler = require("./ws_handler");
-app.ws('/', function(ws, req) {
-    ws.on('message', (msg)=>ws_handler.handlemsg(msg,ws));
-  });
+app.ws('/', (ws,req)=>ws_handler.handlews(ws,req));
 
 app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`)
