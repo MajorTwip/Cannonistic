@@ -75,11 +75,16 @@ function newgame(gameid,enygameid){
     
         var sql = "INSERT INTO games VALUES (?,?)"
         var params = [gameid,enygameid];
-        _db.run(sql,params, function(err) {
-            if (err) {
-              return console.log(err.message);
-            }
-            console.log(`A game has been created: ${this.lastID}`);
+       
+
+        return new Promise(function(resolve,reject){
+            _db.run(sql,params, function(err) {
+                if (err) {
+                  return console.log(err.message);
+                }
+                console.log(`A game has been created: ${this.lastID}`);
+                resolve(this.lastID);
+            });
         });
 }
 
