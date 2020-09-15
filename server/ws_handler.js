@@ -1,5 +1,5 @@
 var fs = require('fs');
-var jschema = JSON.parse(fs.readFileSync("./doc/WS_schema.json", 'utf8'));
+var jschema = JSON.parse(fs.readFileSync("./doc/WS_schema_client2server.json", 'utf8'));
 
 function handlews(ws, req, games) {
     ws.on('message', (msg)=>handlemsg(msg,ws));
