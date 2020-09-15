@@ -1,12 +1,13 @@
 var games = new Map();
 
-function addPlayer(game, gameid, sock){
+function addPlayer(game, sock){
     var opengame = games.get(game.id);
     if(opengame === undefined){
         opengame = game;
-        opengame.socks = new Map();
+        opengame.socks = [sock];
+    }else{
+        opengame.socks.push(sock);
     }
-    opengame.socks.set(gameid, sock)
     games.set(game.id, opengame);
 }
 
@@ -16,8 +17,8 @@ function sendToGame(id, msg){
         console.log("nobody connected to Game " + id)
         return;
     }
-    for (var [gameid, sock] of opengame.socks) {
-        console.log("Send message to " + gameid);
+    for (var sock of opengame.socks) {
+        console.log("Send message to " + sock.gameid);
         sock.send(msg);
     }
 }

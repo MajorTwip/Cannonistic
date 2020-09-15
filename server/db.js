@@ -71,10 +71,10 @@ function getGame(gameid){
 }
 
 
-function newgame(gameid,enygameid){
+function newgame(game){
     
-        var sql = "INSERT INTO games VALUES (?,?)"
-        var params = [gameid,enygameid];
+        var sql = "INSERT INTO games(gameid1, gameid2,wind, nextturn) VALUES (?,?,?,?)"
+        var params = [game.gameid1,game.gameid2,game.newwind,game.gameid1];
        
 
         return new Promise(function(resolve,reject){

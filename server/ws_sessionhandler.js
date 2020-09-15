@@ -1,5 +1,5 @@
 const db = require("./db");
-const games = require("./directory");
+const directory = require("./directory");
 
 //generiert eine neue gameID
 function generateGameID(len) {
@@ -12,35 +12,44 @@ function generateGameID(len) {
 
 async function establish(msg, sock){
     //prepare response
-    var game = new Object();
-    game.type = "initgame";
+    var gamelogic = require("./gamelogic");
+    var resp;
 
     if(msg.gameid == ""){
         //new game
-        do{
-            game.gameid1 = generateGameID(12);
-            game.gameid2 = generateGameID(12);
-        }while(await db.gameIdcollision(game.gameid1, game.gameid2));
-        msg.gameid = game.gameid1
-        game.guns = new Array();
-        game.guns[0] = new Object();
-        game.guns[0].gunnr = 0;
-        game.guns[0].x=50;
-        game.guns[0].y=50;
-        game.guns[1] = new Object();
-        game.guns[1].gunnr = 1;
-        game.guns[1].x=50;
-        game.guns[1].y=950;
-        game.newwind = 0;
-        game.id = await db.newgame(game.gameid1, game.gameid2);
-    }else{
-        game = await db.getGame(msg.gameid);
-    }
-    games.addPlayer(game,msg.gameid,sock);
-    sock.send(JSON.stringify(game));
-    console.log(games.getGames());
 
-    games.sendToGame(game.id, "welcome")
+        //generate 2 new gameid and check if unique
+        var gameid1;
+        var gameid2;
+        do{
+            gameid1 = generateGameID(12);
+            gameid2 = generateGameID(12);
+        }while(await db.gameIdcollision(gameid1, gameid2));
+
+        //instanciate new game
+        resp = new gamelogic.Game(gameid1,gameid2);
+
+        //set requester as player1
+        msg.gameid = resp.gameid1
+
+        //save new game to db and set id
+        resp.id = await db.newgame(resp);
+    }else{
+        //get game by gameid
+        resp = await db.getGame(msg.gameid);
+    }
+    
+    //bind gameid to sock
+    sock.gameid = msg.gameid;
+
+    directory.addPlayer(resp,sock);
+    sock.send(JSON.stringify(resp, function(key, val) {
+        if (key !== "socks")
+            return val;
+    }));
+    console.log(directory.getGames());
+
+    directory.sendToGame(resp.id, "welcome")
 }
 
 

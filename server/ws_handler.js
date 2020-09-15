@@ -30,8 +30,12 @@ function handlemsg(msg, sock) {
     switch(msgJSON.type){
         case "establish":
             var SessionHandler = require('./ws_sessionhandler');
-            SessionHandler.establish(msgJSON,sock, this.games);
+            SessionHandler.establish(msgJSON,sock);
             break;
+        case "newchat":
+            var ChatHandler = require("./ws_chathandler");
+            ChatHandler.receiveChat(msgJSON,sock);
+        //TODO other messagetypes
         default:
             console.log(msgJSON.type + " not yet implemented");
     }
