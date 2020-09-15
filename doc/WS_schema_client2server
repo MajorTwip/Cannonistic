@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "ch.ffhs.webe.canonistic",
+  "type": "object",
+  "title": "Messages used in Cannonstic from the Client to the server",
+  "description": "Die im Spiel Cannonsitic genutztent JSON-Meldungen über WebSocket",
+  "required": [
+    "type",
+    "gameid"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "establish",
+        "setupass",
+        "newchat",
+        "newturn",
+        "userevent"
+      ],
+      "title": "Meldungstyp",
+      "default": "chat"
+    },
+    "gameid": {
+      "default": "",
+      "description": "Die GameID, diese ist abhängig vom Spieler und dem Spiel, leer für neues Spiel",
+      "title": "GameID",
+      "type": "string"
+    },
+    "pass": {
+      "type": "string",
+      "title": "Password",
+      "description": "Passworthash in SHA256",
+      "default": ""
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "newchat"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "newchatmessage": {
+            "type": "string",
+            "title": "newChat",
+            "description": "Neue Nachricht",
+            "default": ""
+          }
+        },
+        "required": [
+          "newchatmessage"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "setupass"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "newname": {
+            "type": "string",
+            "title": "new Name"
+          },
+          "newpass": {
+            "type": "string",
+            "title": "new Password",
+            "description": "Passworthash in SHA256"
+          }
+        },
+        "required": [
+          "newpass"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "newturn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gunnr": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Geschütznummer",
+            "description": "Nummer des Turmes"
+          },
+          "v0": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024,
+            "title": "Mündungsgeschwindigkeit",
+            "description": "Stärke des Abschusses"
+          },
+          "elevation": {
+            "type": "integer",
+            "minimum": -1600,
+            "maximum": 1600,
+            "title": "Rohrerhebung",
+            "description": "0 ist nach Oben, im Uhrzeigersinn"
+          },
+          "geschoss": {
+            "type": "string",
+            "enum": [
+              "stg"
+            ],
+            "default": "stg",
+            "title": "Geschosstyp"
+          }
+        },
+        "required": [
+          "gunnr",
+          "v0",
+          "elevation"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "userevent"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "eventtype": {
+            "type": "string",
+            "title": "Eventtype",
+            "enum": [
+              "surrender"
+            ]
+          }
+        },
+        "required": [
+          "eventtype"
+        ]
+      }
+    }
+  ]
+}
