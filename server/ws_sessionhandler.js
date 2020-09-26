@@ -1,5 +1,6 @@
 const db = require("./db");
 const directory = require("./directory");
+const { Userevent } = require("./messageObjects/toClient");
 
 //generiert eine neue gameID
 function generateGameID(len) {
@@ -49,7 +50,10 @@ async function establish(msg, sock){
     }));
     console.log(directory.getGames());
 
-    directory.sendToGame(resp.id, "welcome")
+    var userevent = require("./messageObjects/toClient")
+    var joinmsg = new userevent.Userevent(msg.gameid,undefined);
+
+    directory.sendToGame(resp.id, joinmsg.toJson())
 }
 
 

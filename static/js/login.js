@@ -1,3 +1,4 @@
+
 (function($, conn){
 
     //bind newgame to Button
@@ -24,6 +25,23 @@
         }else{
             console.log("WebSocket seems to be offline");
         }        
-    })
+    });
+
+    //bind joingame to Button
+    $("#btn_setnamepass").click(function(){
+        if(conn.OPEN){
+            var msg = new Object();
+            msg.type="setupass";
+            msg.gameid=$("#txt_gameid").val();
+            msg.newname=$("#txt_newname").val();
+            $.getScript("js/sha256-min.js");
+            msg.newpass=hex_sha256($("#txt_newpass").val());
+            conn.send(JSON.stringify(msg))
+            console.log("requested new name/pass")
+        }else{
+            console.log("WebSocket seems to be offline");
+        }        
+    });
+    
 
 })(jQuery, connection)
