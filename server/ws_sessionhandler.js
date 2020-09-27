@@ -44,6 +44,8 @@ async function establish(msg, sock){
     sock.gameid = msg.gameid;
 
     directory.addPlayer(resp,sock);
+
+    resp.type="initgame";
     sock.send(JSON.stringify(resp, function(key, val) {
         if (key !== "socks")
             return val;

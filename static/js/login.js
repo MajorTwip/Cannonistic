@@ -37,7 +37,7 @@
             $.getScript("js/sha256-min.js");
             msg.newpass=hex_sha256($("#txt_newpass").val());
             conn.send(JSON.stringify(msg))
-            console.log("requested new name/pass")
+            console.log("set new name/pass")
         }else{
             console.log("WebSocket seems to be offline");
         }        

@@ -21,6 +21,18 @@ connection.onmessage = function (event) {
     let li = document.createElement('li');
     li.innerText = event.data;
     document.querySelector('#chat-history').append(li);
+
+    var msg = JSON.parse(event.data);
+    console.log(msg);
+    if(msg.type=="initgame"){
+        if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
+            $("#txt_youid").val(msg.gameid1);
+            $("#txt_enyid").val(msg.gameid2);
+        } else{
+            $("#txt_enyid").val(msg.gameid2);
+            $("#txt_youid").val(msg.gameid1);
+        }
+    }
 };
 
 /*
