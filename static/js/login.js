@@ -32,7 +32,7 @@
         if(conn.OPEN){
             var msg = new Object();
             msg.type="setupass";
-            msg.gameid=$("#txt_gameid").val();
+            msg.gameid=$("#txt_youid").val();
             msg.newname=$("#txt_newname").val();
             $.getScript("js/sha256-min.js");
             msg.newpass=hex_sha256($("#txt_newpass").val());

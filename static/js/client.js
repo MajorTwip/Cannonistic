@@ -29,8 +29,8 @@ connection.onmessage = function (event) {
             $("#txt_youid").val(msg.gameid1);
             $("#txt_enyid").val(msg.gameid2);
         } else{
-            $("#txt_enyid").val(msg.gameid2);
-            $("#txt_youid").val(msg.gameid1);
+            $("#txt_enyid").val(msg.gameid1);
+            $("#txt_youid").val(msg.gameid2);
         }
     }
 };

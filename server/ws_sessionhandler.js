@@ -58,8 +58,26 @@ async function establish(msg, sock){
     directory.sendToGame(resp.id, joinmsg.toJson())
 }
 
+async function setupass(msg, sock){
+    //prepare response
+    var resp;
+    
+    //db.setupass(msg.gameid, msg.newname, msg.newpass);
+
+
+    var userevent = require("./messageObjects/toClient")
+    var namechange = new userevent.Userevent(msg.gameid,undefined);
+    namechange.setNamechange();
+
+    gameid = await db.getGameId(msg.gameid);
+    directory.sendToGame(gameid, namechange.toJson())
+}
+
+
+
 
 
 module.exports = {
-    establish : establish
+    establish : establish,
+    setupass : setupass
 }

@@ -70,6 +70,23 @@ function getGame(gameid){
 
 }
 
+function getGameId(gameid){
+    //check if gameids unused
+    var sql = "SELECT id FROM games WHERE gameid1 = ? OR gameid2 = ?"
+    var params = [gameid,gameid];
+    return new Promise(function(resolve,reject){
+        _db.get(sql, params, (err, row) => {
+            if (err) {
+                console.warn(err.message);
+                reject(err);
+            }else{
+                resolve(row.id);
+            }
+        });
+    });
+
+}
+
 
 function newgame(game){
     
@@ -92,5 +109,6 @@ module.exports = {
     init : init,
     gameIdcollision: gameIdcollision,
     getGame:getGame,
+    getGameId:getGameId,
     newgame : newgame
 }

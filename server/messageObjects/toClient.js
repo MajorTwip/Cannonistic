@@ -8,6 +8,10 @@ class Userevent{
     toJson(){
         return JSON.stringify(this);
     }
+
+    setNamechange(){
+        this.eventtype = "namechange";
+    }
 }
 
 module.exports = {

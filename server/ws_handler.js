@@ -32,6 +32,10 @@ function handlemsg(msg, sock) {
             var SessionHandler = require('./ws_sessionhandler');
             SessionHandler.establish(msgJSON,sock);
             break;
+        case "setupass":
+            var SessionHandler = require('./ws_sessionhandler');
+            SessionHandler.setupass(msgJSON,sock);
+            break;
         case "newchat":
             var ChatHandler = require("./ws_chathandler");
             ChatHandler.receiveChat(msgJSON,sock);
