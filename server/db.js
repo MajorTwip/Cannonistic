@@ -72,7 +72,7 @@ function getGame(gameid){
 
 function getGameId(gameid){
     //check if gameids unused
-    var sql = "SELECT id FROM games WHERE gameid1 = ? OR gameid2 = ?"
+    var sql = "SELECT rowid FROM games WHERE gameid1 = ? OR gameid2 = ?"
     var params = [gameid,gameid];
     return new Promise(function(resolve,reject){
         _db.get(sql, params, (err, row) => {
@@ -80,7 +80,12 @@ function getGameId(gameid){
                 console.warn(err.message);
                 reject(err);
             }else{
-                resolve(row.id);
+                if(row !== undefined && row.id !==undefined){
+                    resolve(row.id);
+                }else{
+                    reject("no game for this gameId: " + gameid)
+                }
+                
             }
         });
     });

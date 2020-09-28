@@ -1,9 +1,20 @@
 var fs = require('fs');
+const db = require('./db');
+const directory = require('./directory');
 var jschema = JSON.parse(fs.readFileSync("./doc/WS_schema_client2server.json", 'utf8'));
 
-function handlews(ws, req, games) {
+function handlews(ws, req) {
     ws.on('message', (msg)=>handlemsg(msg,ws));
-    this.games = games;
+    ws.on('close', ()=>handledisconnect(ws));
+}
+
+async function handledisconnect(sock){
+    //console.log(sock);
+    if(sock.gameid!==undefined){
+        console.log("remove " + sock.gameid + " from dictionary");
+        var id = await db.getGameId(sock.gameid);
+        directory.removePlayer(sock.gameid, id)
+    }
 }
 
 function handlemsg(msg, sock) {
