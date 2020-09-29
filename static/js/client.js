@@ -65,8 +65,6 @@ $("#chat-input").keypress(function (event) {
     }
 });
 
-
-
 /*
 function sendMessage() {
     var message = $("#chat-input").val();
