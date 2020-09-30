@@ -25,7 +25,6 @@ function removePlayer(gameid, id){
         }
     }else{
         var game = games.get(id);
-        console.log(game)
         for(var i=0; i < game.socks.length; i++){
             if(game.socks[i].gameid == gameid) game.socks.splice(i,1);
             console.log("removed sock from game");
@@ -36,7 +35,6 @@ function removePlayer(gameid, id){
             console.log("removed game from directory, due to no players left online");
         }
     }
-    console.log(game)
 }
 
 function sendToGame(id, msg){

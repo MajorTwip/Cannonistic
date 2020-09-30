@@ -14,6 +14,21 @@ class Userevent{
     }
 }
 
+class Chat{
+    constructor(sender, message){
+        this.type = "chat";
+        this.sender = sender;
+        this.chatmessage = message;
+        this.msgid=0;
+        this.datetime = Date.now();
+    }
+
+    toJson(){
+        return JSON.stringify(this);
+    }
+}
+
 module.exports = {
-    Userevent:Userevent
+    Userevent:Userevent,
+    Chat:Chat
 }

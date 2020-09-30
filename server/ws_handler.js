@@ -50,6 +50,7 @@ function handlemsg(msg, sock) {
         case "newchat":
             var ChatHandler = require("./ws_chathandler");
             ChatHandler.receiveChat(msgJSON,sock);
+            break;
         //TODO other messagetypes
         default:
             console.log(msgJSON.type + " not yet implemented");

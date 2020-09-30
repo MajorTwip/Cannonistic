@@ -18,12 +18,8 @@ connection.onerror = (error) => {
 
 connection.onmessage = function (event) {
     console.log('received', event.data);
-    let li = document.createElement('li');
-    li.innerText = event.data;
-    document.querySelector('#chat-history').append(li);
-
     var msg = JSON.parse(event.data);
-    console.log(msg);
+    //console.log(msg);
     if(msg.type=="initgame"){
         if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
             $("#txt_youid").val(msg.gameid1);
@@ -32,32 +28,34 @@ connection.onmessage = function (event) {
             $("#txt_enyid").val(msg.gameid1);
             $("#txt_youid").val(msg.gameid2);
         }
+        return;
     }
+    if(msg.type=="chat"){
+        var ul_chat = $("#chat-history");
+        var chatline = document.createElement('li');
+        chatline.innerText = msg.sender + ": " + msg.chatmessage;
+        $(chatline).attr("data-datetime",msg.datetime)
+        ul_chat.append(chatline);
+
+        var items = $('li');
+        items.sort(function(a, b){
+        return +$(a).data('datetime') - +$(b).data('datetime');
+});
+    }
+
+
 };
 
-/*
-connection.onmessage = (event) => {
-    console.log('received', event.data);
-    let li = document.createElement('li');
-    li.innerText = event.data;
-    document.querySelector('#chat-history').append(li);
-};
-
-*/
 
 $('#chatform').submit(function(e){
     e.preventDefault();
     var msg = new Object();
     msg.type = "newchat";
-    console.log($("#gameid").val());
-    msg.gameid = $('#gameid').val();
+    msg.gameid = $('#txt_youid').val();
     msg.newchatmessage = $('#chat-input').val();
     connection.send(JSON.stringify(msg));
     document.querySelector('#chat-input').value = '';
 });
-
-
-$("#send").click(sendMessage());
 
 $("#chat-input").keypress(function (event) {
     if (event.keyCode === 13) {
@@ -65,21 +63,4 @@ $("#chat-input").keypress(function (event) {
     }
 });
 
-
-
-/*
-function sendMessage() {
-    var message = $("#chat-input").val();
-    console.log(message);
-    connection.send(name + ":" + message)
-    $("#chat-input").val("");
-}
-*/
-
-
-(function ($) {
-    $(function () {
-        alert("jquery-test");
-    });
-})(jQuery);
 
