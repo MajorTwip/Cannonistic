@@ -1,11 +1,13 @@
 
 // Get canvas and context
-var canvas = document.getElementById("can_game");
-var ctx = canvas.getContext("2d");
+var b_canvas = document.getElementById("background_canvas");
+var f_canvas = document.getElementById("foreground_canvas");
+var b_ctx = b_canvas.getContext("2d");
+var f_ctx = f_canvas.getContext("2d");
 
 // Get Size of Window
-var width = canvas.width = window.innerWidth - 100;
-var height = canvas.height = window.innerHeight - 100;
+var width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
+var height = b_canvas.height = f_canvas.height = window.innerHeight - 100;
 
 // Trajectory variables
 var pos = { x: -95, y: -500 };
@@ -23,11 +25,6 @@ var myTurn = true;
 
 var scalingFactor = 0.998;
 
-// Ready to go
-$(document).ready(function(){
-    drawCannons();
-    handleInput();
-});
 
 // places both cannons in the field
 
@@ -51,46 +48,46 @@ function mirrorImage(ctx, image, x = 0, y = 0, horizontal = false, vertical = fa
     ctx.restore(); // restore the state as it was when this function was called
 }
 
-var cannon_mirrored;
-var barrel_mirrored;
-var cannon_height;
-var cannon_with;
+
+var tank = new Image();
+var barrel = new Image();
+tank.src = 'images/tank.png';
+barrel.src = 'images/tank_barrel.png';
+
+// scaling tank and barrel
+var cannon_resized = scaleImage(tank, 0);
+var barrel_resized = scaleImage(barrel, 0);
+
+// mirroring tank and barrel to the left
+var cannon_mirrored = mirrorImage(f_ctx, tank, 0, 0, true, false);
+var barrel_mirrored = mirrorImage(f_ctx, barrel, 0, 0, true, false);
+
+var x_pos = -100;
+var y_pos = scalingFactor * height - cannon_resized.height;
+var sym_x_pos = (scalingFactor-0.05) * width - cannon_resized.width;
+
+//ctx.drawImage(barrel,x_pos, y_pos, c_height, c_width);
+var cannon_height = cannon_resized.height;
+var cannon_with = cannon_resized.width;
+
+//var cannon_mirrored;
+//var barrel_mirrored;
+//var cannon_height;
+//var cannon_with;
 
 function drawCannons(){
-
-    var tank = new Image();
-    var barrel = new Image();
-    tank.src = 'images/tank.png';
-    barrel.src = 'images/tank_barrel.png';
-
-    // scaling tank and barrel
-    var cannon_resized = scaleImage(tank, 0);
-    var barrel_resized = scaleImage(barrel, 0);
-
-    // mirroring tank and barrel to the left
-    cannon_mirrored = mirrorImage(ctx, tank, 0, 0, true, false);
-    barrel_mirrored = mirrorImage(ctx, barrel, 0, 0, true, false);
-
-    x_pos = -100;
-    y_pos = scalingFactor * height - cannon_resized.height;
-    sym_x_pos = (scalingFactor-0.05) * width - cannon_resized.width;
-
-    //ctx.drawImage(barrel,x_pos, y_pos, c_height, c_width);
-    cannon_height = cannon_resized.height;
-    cannon_with = cannon_resized.width;
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    f_ctx.clearRect(0,0,f_canvas.width, f_canvas.height);
     //ctx.save();
     //ctx.drawImage(cannon_mirrored, x_pos, y_pos, cannon_height, cannon_with);
     //ctx.drawImage(barrel_mirrored,x_pos, y_pos, cannon_height, cannon_with);
 
     // draw right cannon
-    ctx.drawImage(cannon_mirrored, -canvas.width + 200, y_pos, cannon_height, cannon_with);
-    ctx.drawImage(barrel_mirrored, -canvas.width + 200, y_pos, cannon_height, cannon_with);
+    f_ctx.drawImage(cannon_mirrored, -f_canvas.width + 200, y_pos, cannon_height, cannon_with);
+    f_ctx.drawImage(barrel_mirrored, -f_canvas.width + 200, y_pos, cannon_height, cannon_with);
 
     // draw left cannon
-    ctx.drawImage(cannon_resized, x_pos, y_pos, cannon_height, cannon_with);
-    ctx.drawImage(barrel_resized, x_pos, y_pos, cannon_height, cannon_with);
+    f_ctx.drawImage(cannon_resized, x_pos, y_pos, cannon_height, cannon_with);
+    f_ctx.drawImage(barrel_resized, x_pos, y_pos, cannon_height, cannon_with);
     //ctx.restore();
 }
 /*
@@ -112,7 +109,6 @@ function elevateBarrel(image, x, y, scale, degree){
 // Elevation of Tube
 function elevation(angle){
     angle = angle;
-
 }
 
 // Power of the shot
@@ -132,17 +128,18 @@ function stopVelo(){
 
 
 var moveX = -1;
+var moveY = -1*(Math.tan(angle) - (gravity*x)/Math.cos(angle)*velo**2);
 var x = 0;
 var ballYStart = height - 200;
 // Calculates the trajectory of the bullet
 function trajectory(){
-    x += 1;
-    var moveY = -1*(x*math.tan(angle) - (gravity*x**2)/(2*(velo**2)*math.pow(math.cos(angle),2)));
+    //x += 1;
+    //var moveY = -1*(x*math.tan(angle) - (gravity*x**2)/(2*(velo**2)*math.pow(math.cos(angle),2)));
     console.log("First: " + moveY);
 
 
     ball.x += moveX;
-    ball.y = moveY + ballYStart;
+    ball.y = moveY; //+ ballYStart;
 
     console.log(canvas.heigt);
     //if (ball.y < canvas.height) {
@@ -223,3 +220,11 @@ function shoot() {
 function stopFire(){
     clearInterval(startShoot);
 }
+
+drawCannons();
+
+// Ready to go
+$(document).ready(function(){
+
+    handleInput();
+});

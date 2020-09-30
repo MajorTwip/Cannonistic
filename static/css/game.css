@@ -1,4 +1,17 @@
-canvas{
+#background_canvas{
     background: dimgrey url("../images/background.png") center center;
     background-size: cover;
+    width: 97vw;
+}
+
+#foreground_canvas{
+    background-size: cover;
+    width: 97vw;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 40vw;
+    left: 1vw;
 }
