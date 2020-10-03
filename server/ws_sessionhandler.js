@@ -29,7 +29,8 @@ async function establish(msg, sock){
 
         //instanciate new game
         resp = new gamelogic.Game(gameid1,gameid2);
-
+        resp.initLevel(1);
+        console.log(resp.getTrajectory(0,0,800,800,0));
         //set requester as player1
         msg.gameid = resp.gameid1
 

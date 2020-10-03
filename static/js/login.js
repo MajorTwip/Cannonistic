@@ -1,5 +1,5 @@
 
-/*(function($, conn){
+(function($, conn){
 
     //bind newgame to Button
     $("#btn_newgame").click(function(){
@@ -44,4 +44,4 @@
     });
     
 
-})(jQuery, connection)*/
+})(jQuery, connection)
