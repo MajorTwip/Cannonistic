@@ -1,4 +1,4 @@
-const connection = new WebSocket('ws://' + window.location.hostname);
+const connection = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
 
 //const connection = new WebSocket();
 
