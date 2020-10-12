@@ -51,7 +51,10 @@ function handlemsg(msg, sock) {
             var ChatHandler = require("./ws_chathandler");
             ChatHandler.receiveChat(msgJSON,sock);
             break;
-        //TODO other messagetypes
+        case "newturn":
+            var TurnHandler = require("./ws_turnhandler");
+            TurnHandler.newTurn(msgJSON,sock);
+            break;
         default:
             console.log(msgJSON.type + " not yet implemented");
     }
