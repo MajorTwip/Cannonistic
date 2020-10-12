@@ -1,4 +1,4 @@
-var v0scale = 1/100;
+var v0scale = 1/50;
 
 class Game {
     constructor(gameid1, gameid2) {
