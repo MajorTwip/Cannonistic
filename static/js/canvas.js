@@ -76,9 +76,9 @@ window.onload = function() {
         //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
 
         let deg = controls.degree;
-        barrel.draw(f_ctx);
-        barrel.elevate(f_ctx, x_pos,y_pos , deg);
 
+        barrel.elevate(f_ctx, x_pos,y_pos , deg);
+        barrel.draw(f_ctx);
 
 
 
