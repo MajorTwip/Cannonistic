@@ -1,78 +1,102 @@
-let utils =
-{
-    clamp: function (value, min, max) {
-        return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
-    },
+// Cannon controls
+let myTurn = true;
+let gunnr = 1;
+let v0 = 1;
+let elevation= 0;
+let loadingInterval;
+let jsonObject;
+let firing = false;
 
-    mirrorImage: function(ctx, image, x = 0, y = 0, horizontal = false, vertical = false) {
-        ctx.save();  // save the current canvas state
-        ctx.setTransform(
-            horizontal ? -1 : 1, 0, // set the direction of x axis
-            0, vertical ? -1 : 1,   // set the direction of y axis
-            x + horizontal ? image.width : 0, // set the x origin
-            y + vertical ? image.height : 0   // set the y origin
-        );
-        ctx.restore()
-        return image;
+// Handles mouse input
+let oldY = 0;
 
-    },
+let handleInput = function() {
+    $("#foreground_canvas").bind("mousedown", function(e){
+        console.log("down");
+        loadingInterval = setInterval(load, 1);
+    });
+
+    $("#foreground_canvas").bind("mousemove", function(e) {
+
+        if (oldY < e.pageY) {
+            if (elevation > -7) {
+                elevation--;
+            }
+        } else {
+            if (elevation < 7) {
+                elevation++;
+            }
+        }
+        console.log("elevation: ", elevation)
+        oldY = e.pageY;
+
+    });
+
+    $("#foreground_canvas").bind("mouseup", function(e){
+        console.log("up");
+        stopLoading();
+        fire()
+    });
+};
+
+// load
+function load(){
+    if (v0 <= 1024) {
+        v0++;
+        console.log('v0: ', v0);
+    }
 }
 
-let controls = {
-    loadVelo: false,
-    lv: null,
-    velo: 0,
-    degree: 0,
-    shooting: false,
+// Konnte das JSON-Schema nicht verwenden
+function sendToServer(gun, v, e) {
+    jsonObject = {
+        "newturn": {
+            "gunnr": gun,
+            "v0" : v,
+            "elevation": e,
+        }
+    }
+    console.log(jsonObject);
+    connection.send(JSON.stringify(jsonObject));
+}
 
-    create: function(){
-        return this;
-    },
+// fire
+function fire() {
+    console.log("fire");
+    sendToServer(gunnr, v0, elevation);
+    //v0 = 1;
+    //elevation = 0;
+    myTurn = false;
+    firing = true;
+    $("#foreground_canvas").unbind();
 
-    load: function(canvas){
+}
 
-        canvas.addEventListener("mousedown", e=> {
-            if (this.velo < 100) {
-                this.velo++;
-                //this.lv = setTimeout(this.load(canvas), 20);
+// Stops loading
+function stopLoading(){
+    clearInterval(loadingInterval);
+}
 
-            }
-            this.lv = setTimeout(this.load(canvas), 10);
-            console.log("velo " + this.velo);
+function isMyTurn(){
+    return myTurn;
+}
 
-        });
+function isFiring(){
+    return firing;
+}
 
-        },
+function getElevation(){
+    return elevation;
+}
 
+function getV0(){
+    return v0;
+}
 
-    elevate: function(canvas){
-        //let f_can = document.getElementById("foreground_canvas");
-        //let degree = 0;
-        let center_x = 310;
-        let center_y = 265;
-
-        canvas.addEventListener("mousemove", e=>{
-
-
-            let mouse_x = e.pageX;
-            let mouse_y = e.pageY;
-            //let radians = Math.atan2(mouse_x - center_x, mouse_y - center_y)*0.4;
-            let radians = Math.atan2(mouse_y - center_y, mouse_x - center_x)*0.4;
-            this.degree = radians * 180 / Math.PI;
-            //console.log("rad_control:" + radians);
-            //console.log("result_control:" + this.degree);
-            //rotateBarrel(degree);
-
-        });
-
-    },
-
-    shoot: function (canvas){
-        canvas.addEventListener("mouseup", e=>{
-            clearInterval(this.lv);
-            this.shooting = true;
-        });
-
-    },
-
-};
+if (isMyTurn()) {
+    // Ready to go
+    $(document).ready(function () {
+        handleInput();
+        console.log("register handlersS")
+    });
+}

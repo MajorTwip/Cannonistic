@@ -23,15 +23,15 @@ window.onload = function() {
     cannon = cannon.create(f_ctx,x_pos, y_pos, false);
     //cannon_r = cannon.create(f_ctx,0, 0, true);
     barrel = barrel.create(x_pos, y_pos, width);
-    bullet = bullet.create(x_pos, y_pos, 2, 90, 45);
+    let angle = getElevation();
+    let velocity = getV0();
+    console.log('velo ', velocity, 'angle', angle);
+    bullet = bullet.create(x_pos, y_pos, 2, velocity, angle);
 
     let myTurn = true;
 
     if (myTurn){
-        controls = controls.create();
-        controls.load(f_canvas);
-        controls.elevate(f_canvas);
-        controls.shoot(f_canvas);
+
     }
 
     /*
@@ -68,16 +68,17 @@ window.onload = function() {
         //cannon_r.draw(f_ctx);
 
         // Draw bullet
-        if (controls.shooting){
+        if (isFiring()){
             bullet.draw(b_ctx);
-            bullet.trajectory(b_ctx, true);
+            bullet.trajectory(b_ctx, getV0(),getElevation(), true);
         }
         //barrel.draw(f_ctx);
         //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
 
-        let deg = controls.degree;
 
-        barrel.elevate(f_ctx, x_pos,y_pos , deg);
+        let deg = getElevation();
+
+        barrel.elevate(f_ctx, x_pos,y_pos , deg*0.05);
         barrel.draw(f_ctx);
 
 

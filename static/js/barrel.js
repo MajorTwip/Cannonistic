@@ -36,7 +36,7 @@ let barrel = {
 //		targetContext.save();
         context.rotate(degree);
         context.translate(-xdev,-ydev);
-        context.clearRect(0,0, width, height);
+
         context.translate(xdev,ydev);
 
         //f_ctx.beginPath();
@@ -44,7 +44,7 @@ let barrel = {
         //f_ctx.fill();
 
         context.translate(-xdev,-ydev);
-
+        this.draw(f_ctx);
 //		targetContext.restore();
         context.restore();
 

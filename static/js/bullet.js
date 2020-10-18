@@ -16,9 +16,13 @@ let bullet = {
         return this;
     },
 
-    trajectory: function(context, myTurn){
+    trajectory: function(context, speed, elevation, myTurn){
         let moveX;
         let moveY;
+        this.velo = speed;
+        this.angle = elevation;
+        console.log('velo ', this.velo, 'angle', this.angle);
+
         let trajectory = (Math.tan(bullet.angle) - (bullet.gravity * bullet.x) / (Math.cos(bullet.angle) * bullet.velo ** 2));
 
         if (myTurn) {
