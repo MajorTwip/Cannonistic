@@ -1,11 +1,16 @@
 // Cannon controls
 let myTurn = true;
 let gunnr = 1;
-let v0 = 1;
-let elevation= 0;
+let v0 = 0;
+let elevation = 0;
 let loadingInterval;
-let jsonObject;
+let jsonObj_newturn;
 let firing = false;
+
+// elevation variables
+let max_limit = 1600;
+let min_limit = - max_limit;
+let scaler = max_limit/90;
 
 // Handles mouse input
 let oldY = 0;
@@ -18,17 +23,19 @@ let handleInput = function() {
 
     $("#foreground_canvas").bind("mousemove", function(e) {
 
-        if (oldY < e.pageY) {
-            if (elevation > -7) {
-                elevation--;
+        if (oldY > e.pageY) {
+            if (elevation >= min_limit) {
+                elevation = elevation - scaler;
             }
         } else {
-            if (elevation < 7) {
-                elevation++;
+            if (elevation <= max_limit)  {
+                elevation = elevation + scaler;
             }
         }
         console.log("elevation: ", elevation)
         oldY = e.pageY;
+
+        console.log(elevation / scaler);
 
     });
 
@@ -41,29 +48,32 @@ let handleInput = function() {
 
 // load
 function load(){
-    if (v0 <= 1024) {
-        v0++;
+    if (v0 < 1024) {
+        v0+=4;
         console.log('v0: ', v0);
     }
 }
 
-// Konnte das JSON-Schema nicht verwenden
+// JSON-Objec should now match to JSON-Schema
 function sendToServer(gun, v, e) {
-    jsonObject = {
-        "newturn": {
+    let gameid = document.getElementById('txt_gameid')
+
+    jsonObj_newturn = {
+        "gameid": gameid,
+        "type": "newturn",
             "gunnr": gun,
             "v0" : v,
-            "elevation": e,
-        }
+            "elevation": e
     }
-    console.log(jsonObject);
-    connection.send(JSON.stringify(jsonObject));
+
+    console.log(jsonObj_newturn);
+    connection.send(JSON.stringify(jsonObj_newturn));
 }
 
 // fire
 function fire() {
     console.log("fire");
-    sendToServer(gunnr, v0, elevation);
+    sendToServer(gunnr, v0, getElevation());
     //v0 = 1;
     //elevation = 0;
     myTurn = false;

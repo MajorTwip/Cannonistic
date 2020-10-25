@@ -50,7 +50,9 @@ window.onload = function () {
         //Links = -1600
         //Rechts = +1600
         //getElevation liefert -7 bis +7 (Wieso?)
-        drawCannon(150, 150, 1600 * getElevation()/7);
+        //drawCannon(150, 150, 1600 * getElevation()/7);
+        drawCannon(150, 150, getElevation());
+
 
 
         //DANCING CANNON
@@ -114,22 +116,6 @@ window.onload = function () {
     if (myTurn) {
 
     }
-
-    /*
-    //bullet = bullet.create(cannon.cannonXleft, cannon.cannonY,2, 92, 0.92),
-    bullet = bullet.create(cannon.x_pos, cannon.cannonY,2, 92, 0.92),
-    //controls = controls.create()
-    controls.load(f_canvas);
-    controls.elevate(f_canvas);
-
-    myTurn = true;
-
-    console.log(width);
-    console.log(height);
-
-    console.log(cannon.x_pos);
-
-*/
 
 
     //elevate();
