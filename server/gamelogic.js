@@ -6,7 +6,17 @@ class Game {
         this.gameid1 = gameid1;
         this.gameid2 = gameid2;
         this.guns = new Array();
-        this.newwind = 0;
+        this.wind = 0;
+        this.state = "T1";
+        if(Math.random()>0.5) this.state = "T2"; //Random definition who begins
+        this.name1 = gameid1;
+        this.name2 = gameid2;
+        this.pass1 = "";
+        this.pass2 = "";
+        this.lastele = undefined;
+        this.lastV0 = undefined;
+        this.lastwind = undefined;
+        this.level = 0;
     }
 
     initLevel(level) {
