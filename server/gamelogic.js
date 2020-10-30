@@ -7,7 +7,7 @@ function getDamage(xg,yg,x,y){
     var dist = Math.hypot(xg-x,yg-y);
     var dmg = 512 - (dist*10);
     if(dmg <0)dmg=0; 
-    return dmg;
+    return Math.round(dmg);
 }
 
 var SenderObjects = require("./messageObjects/toClient")
@@ -51,7 +51,7 @@ class Game {
 
         var timeline = 0
 
-        traj.push({"t":timeline,"x":x,"y":y}); // add first point just after the barrel
+        traj.push({"t":timeline,"x":Math.round(x),"y":Math.round(y)}); // add first point just after the barrel
 
         while(!checkCollision(x,y)){
             timeline += 1;
@@ -59,7 +59,7 @@ class Game {
             y=y+(vy/10);
             vy = vy - (9.81 / 10 * gravityScale) // add gravity
             vx = vx + (wind * windScale ) // add wind (factor to play)  
-            traj.push({"t":timeline,"x":x,"y":y}); // add first point just after the barrel
+            traj.push({"t":timeline,"x":Math.round(x),"y":Math.round(y)}); // add first point just after the barrel
         }
         return traj;
     }
@@ -118,7 +118,7 @@ class Game {
         this.lastV0 = msg.v0;
         this.lastele = msg.lastele;
         this.lastwind = this.wind;
-        this.wind = Math.random() - 0.5 * 2 * maxwind;
+        this.wind = Math.round(Math.random() - 0.5 * 2 * maxwind);
 
 
     }
