@@ -5,9 +5,8 @@
   "title": "Messages used in Cannonstic from the Client to the server",
   "description": "Die im Spiel Cannonsitic genutztent JSON-Meldungen über WebSocket",
   "required": [
-    "type",
-    "gameid"
-  ],
+    "type"
+    ],
   "properties": {
     "type": {
       "type": "string",

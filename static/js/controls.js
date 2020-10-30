@@ -56,14 +56,12 @@ function load(){
 
 // JSON-Objec should now match to JSON-Schema
 function sendToServer(gun, v, e) {
-    let gameid = document.getElementById('txt_gameid')
 
     jsonObj_newturn = {
-        "gameid": gameid,
         "type": "newturn",
             "gunnr": gun,
-            "v0" : v,
-            "elevation": e
+            "v0" : Math.round(v),
+            "elevation": Math.round(e)
     }
 
     console.log(jsonObj_newturn);
