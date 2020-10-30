@@ -5,8 +5,8 @@ const directory = require("./directory");
 async function newTurn(msg, sock){
     console.log("new turn...")
     var game = await db.getGame(sock.gameid);
-    console.log(game);
-    //directory.sendToGame(gameid, chat.toJson())
+    game.doTurn(msg,sock);
+    directory.sendToGame(game.id, JSON.stringify(game))
 }
 
 module.exports = {

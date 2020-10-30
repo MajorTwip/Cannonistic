@@ -62,6 +62,14 @@ class Game {
         }
         return undefined;
     }
+
+    doTurn(msg, sock){
+        var gameid = sock.gameid;
+        var gun;
+        this.guns.forEach((g)=>{if(g.gunnr==msg.gunnr)gun = g});
+        if(gun===undefined)console.error("no gun with this nr");
+        this.trajectory = this.getTrajectory(gun.x,gun.y,msg.elevation,msg.v0,this.wind);
+    }
 }
 
 module.exports = {

@@ -54,9 +54,13 @@ function gameIdcollision(gameid, enygameid) {
 
 
 function getGame(gameid) {
-    var game = _getGame(gameid);
-    game.guns = _getGuns(game.id);
-    return game;
+    var game = _getGame(gameid)
+    var guns = game.then(g=>_getGuns(g.id));
+    return Promise.all([game,guns]).then(vals=>{
+        var g = vals[0];
+        g.guns = vals[1];
+        return g;
+    })
 }
 
 function _getGame(gameid) {
@@ -95,11 +99,12 @@ function _getGuns(games_id) {
         var sql = "SELECT * FROM guns WHERE games_id = ?"
         var params = [games_id];
         var guns = new Array();
-        _db.each(sql, params, (err, row) => {
+        _db.all(sql, params, (err, rows) => {
             if (err) {
                 console.warn(err.message);
                 reject(err);
             } else {
+                rows.forEach(row=>{
                 var gun = new Object();
                 gun.id = row.id;
                 gun.gunnr = row.gunnr;
@@ -108,20 +113,22 @@ function _getGuns(games_id) {
                 gun.y = row.y;
                 gun.health = row.health;
                 guns.push(gun);
-                console.log(gun);
+            });
+            resolve(guns);
             }
         });
-        resolve(guns);
     });
 }
 
 
 
 function saveGame(game) {
-    _saveGame(game)
-    for (var gun in game.guns) {
-        _saveGun(game.id, gun);
-    }
+    var promises = new Array();
+    promises.push(_saveGame(game))
+    game.guns.forEach(gun => {
+        promises.push(_saveGun(game.id, gun));
+    });
+    return Promise.all(promises).then(()=>true)
 }
 
 function _saveGame(game) {
@@ -146,7 +153,7 @@ function _saveGame(game) {
             if (err) {
                 reject(err.message);
             }
-            console.log(`A game has been updated: ${this.lastID}`);
+            console.log(`A game has been updated: ${game.id}`);
             resolve(this.lastID);
         });
     });
@@ -168,7 +175,7 @@ function _saveGun(games_id, gun) {
             if (err) {
                 reject(err.message);
             }
-            console.log(`A gun has been updated: ${this.lastID}`);
+            console.log(`A gun has been updated: ${games_id}:${gun.gunnr}`);
             resolve(this.lastID);
         });
     });
@@ -197,8 +204,17 @@ function getGameId(gameid) {
 
 }
 
-
 function newgame(game) {
+    var games_id = _newgame(game) //promise of Int
+    var gunpromises = new Array();
+    game.guns.forEach(gun => {
+        gunpromises.push(games_id.then(games_id => _newGun(games_id, gun)))
+    });
+    return Promise.all(gunpromises).then(() => games_id)
+}
+
+
+function _newgame(game) {
 
     var sql = "INSERT INTO games(gameid1, gameid2) VALUES (?,?)"
     var params = [game.gameid1, game.gameid2];
@@ -210,20 +226,12 @@ function newgame(game) {
                 return console.log(err.message);
             }
             console.log(`A game has been created: ${this.lastID}`);
-            game.guns.forEach(gun => {
-                console.log(gun)
-                _newGun(this.lastID,gun)
-            });
-            /*for(var gun in game.guns){
-                console.log("b" + gun);
-            };*/
             resolve(this.lastID);
         });
     });
 }
 
 function _newGun(games_id, gun) {
-    console.log(gun.owner)
     var sql = "INSERT INTO guns (games_id, gunnr, owner) VALUES (?,?,?);"
     var params = [games_id, gun.gunnr, gun.owner];
 
@@ -233,7 +241,7 @@ function _newGun(games_id, gun) {
                 console.log(gun);
                 reject(err.message);
             }
-            console.log(`A gun has been created: ${this.lastID}`);
+            console.log(`A gun has been created: ${games_id}:${gun.gunnr}`);
             resolve(this.lastID);
         });
     });
