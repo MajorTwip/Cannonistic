@@ -1,4 +1,6 @@
-var v0scale = 1/50;
+var v0scale = 1/500;
+var gravityScale = 1/1;
+var windScale = 1/1000;
 
 class Game {
     constructor(gameid1, gameid2) {
@@ -46,8 +48,8 @@ class Game {
             timeline += 1;
             x=x+(vx/10); //move by tenth of a second (artillery standard)
             y=y+(vy/10);
-            vy = vy - (9.81 / 10) // add gravity
-            vx = vx + (wind / 1000) // add wind (factor to play)  
+            vy = vy - (9.81 / 10 * gravityScale) // add gravity
+            vx = vx + (wind * windScale ) // add wind (factor to play)  
             traj.trajectory.push({"t":timeline,"x":x,"y":y}); // add first point just after the barrel
         }
         return traj;
