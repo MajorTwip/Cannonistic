@@ -28,7 +28,20 @@ class Chat{
     }
 }
 
+class Error{
+    constructor(message, code){
+        this.type = "error";
+        this.code = code;
+        this.message = message;
+    }
+
+    toJson(){
+        return JSON.stringify(this);
+    }
+}
+
 module.exports = {
     Userevent:Userevent,
-    Chat:Chat
+    Chat:Chat,
+    Error:Error
 }
