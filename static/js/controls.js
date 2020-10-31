@@ -2,7 +2,7 @@
 let myTurn = true;
 let gunnr = 1;
 let v0 = 0;
-let elevation = 0;
+let elevation = 800;
 let loadingInterval;
 let jsonObj_newturn;
 let firing = false;
@@ -54,7 +54,7 @@ function load(){
     }
 }
 
-// JSON-Objec should now match to JSON-Schema
+// JSON-Object should now match to JSON-Schema
 function sendToServer(gun, v, e) {
 
     jsonObj_newturn = {
@@ -72,17 +72,29 @@ function sendToServer(gun, v, e) {
 function fire() {
     console.log("fire");
     sendToServer(gunnr, v0, getElevation());
-    //v0 = 1;
-    //elevation = 0;
     myTurn = false;
     firing = true;
-    $("#foreground_canvas").unbind();
+    unbindHandler();
+    v0 = 1;
+    elevation = 800;
+    bullet.i = 0;
+}
 
+function unbindHandler(){
+    $("#foreground_canvas").unbind();
 }
 
 // Stops loading
 function stopLoading(){
     clearInterval(loadingInterval);
+}
+
+function setMyTurn(myturn){
+    myTurn = myturn;
+}
+
+function setFiring(fire){
+    firing = fire;
 }
 
 function isMyTurn(){
@@ -104,7 +116,6 @@ function getV0(){
 if (isMyTurn()) {
     // Ready to go
     $(document).ready(function () {
-        handleInput();
         console.log("register handlersS")
     });
 }

@@ -67,7 +67,11 @@ body{
 
 }
 
-#can_game, .chat{
+#canvas{
+    display: block;
+}
+
+.chat{
     display: block;
     margin: 0 auto;
     width: 97vw;
@@ -91,6 +95,7 @@ body{
 #send{
     paddiing: 10px 10px 10px 10px;
     font-size: 2vw;
+    display: block;
 }
 
 
@@ -99,8 +104,15 @@ body{
         display: block;
     }
 
+    #canvas{
+         display: block;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
+
+    #canvas{
+        display: block;
+    }
 
 }

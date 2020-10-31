@@ -5,9 +5,14 @@ window.onload = function () {
     var f_canvas = document.getElementById("foreground_canvas");
     var b_ctx = b_canvas.getContext("2d");
     var f_ctx = f_canvas.getContext("2d");
+
+    let width;
+    let height;
+
     // Get Size of Window
-    var width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
-    var height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
+
+    width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
+    height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
 
     var tank = new Image();
     var barrel = new Image();
@@ -94,9 +99,6 @@ window.onload = function () {
         f_ctx.drawImage(barrel, -tankpivotX / scalingFactor, -tankpivotY / scalingFactor, barrel.naturalWidth / scalingFactor, barrel.naturalHeight / scalingFactor);
     }
 
-
-
-
     console.log(width, height);
     let scaleFactor = 0.03;
 
@@ -110,12 +112,6 @@ window.onload = function () {
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
     bullet = bullet.create(x_pos, y_pos, 2, velocity, angle);
-
-    let myTurn = true;
-
-    if (myTurn) {
-
-    }
 
 
     //elevate();
@@ -138,7 +134,7 @@ window.onload = function () {
         // Draw bullet
         if (isFiring()) {
             bullet.draw(b_ctx);
-            bullet.trajectory(b_ctx, getV0(), getElevation(), true);
+            bullet.trajectory();
         }
         //barrel.draw(f_ctx);
         //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);

@@ -2,10 +2,14 @@
 let bullet = {
     x: 0 ,//width -290,
     y: 0,
+    moveX: 0,
+    moveY: 0,
     rad: 2,
     velo: 0,
     angle: 0,
     gravity: 9.81,
+    bulletPath: [],
+    i: 0,
 
     create: function(x, y, radius, velocity, angle){
         this.x = x;
@@ -16,9 +20,11 @@ let bullet = {
         return this;
     },
 
-    trajectory: function(context, speed, elevation, myTurn){
+    trajectory: function(){
+        /*
         let moveX;
         let moveY;
+
         this.velo = speed;
         this.angle = elevation;
         console.log('velo ', this.velo, 'angle', this.angle);
@@ -33,8 +39,20 @@ let bullet = {
             moveY = trajectory;
         }
         // shoot from left to right
-        bullet.x += moveX;
-        bullet.y += moveY;
+
+
+         */
+
+        console.log(this.bulletPath);
+        let traceLength = this.bulletPath.length;
+
+        if (this.i < traceLength) {
+            this.moveX = this.bulletPath[this.i]["x"];
+            this.moveY = this.bulletPath[this.i++]["y"];
+            this.x += this.moveX;
+            this.y += this.moveY;
+        }
+
 
         // shoot from right to left
 
@@ -45,7 +63,7 @@ let bullet = {
     draw: function(context){
         context.beginPath();
         context.fillStyle = 'BLACK';
-        context.arc(bullet.x, bullet.y, bullet.rad, 0, Math.PI * 2, false);
+        context.arc(this.x, this.y, this.rad, 0, Math.PI * 2, false);
         context.fill();
         context.closePath();
     },

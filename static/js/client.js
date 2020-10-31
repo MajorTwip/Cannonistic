@@ -18,31 +18,62 @@ connection.onerror = (error) => {
 
 connection.onmessage = function (event) {
     console.log('received', event.data);
-    var msg = JSON.parse(event.data);
-    //console.log(msg);
-    if(msg.type=="initgame"){
-        if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
-            $("#txt_youid").val(msg.gameid1);
-            $("#txt_enyid").val(msg.gameid2);
-        } else{
-            $("#txt_enyid").val(msg.gameid1);
-            $("#txt_youid").val(msg.gameid2);
-        }
-        return;
-    }
-    if(msg.type=="chat"){
-        var ul_chat = $("#chat-history");
-        var chatline = document.createElement('li');
-        chatline.innerText = msg.sender + ": " + msg.chatmessage;
-        $(chatline).attr("data-datetime",msg.datetime)
-        ul_chat.append(chatline);
+    let msg = JSON.parse(event.data);
+    console.log('json', msg);
 
-        var items = $('li');
-        items.sort(function(a, b){
-        return +$(a).data('datetime') - +$(b).data('datetime');
-});
-    }
+    switch (msg.type){
+        case "initgame":
+            if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
+                $("#txt_youid").val(msg.gameid1);
+                $("#txt_enyid").val(msg.gameid2);
+            } else{
+                $("#txt_enyid").val(msg.gameid1);
+                $("#txt_youid").val(msg.gameid2);
+            }
+            return;
 
+        case ("join"):
+            console.log('joined');
+            break;
+
+        case "chat":
+            var ul_chat = $("#chat-history");
+            var chatline = document.createElement('li');
+            chatline.innerText = msg.sender + ": " + msg.chatmessage;
+            $(chatline).attr("data-datetime",msg.datetime)
+            ul_chat.append(chatline);
+
+            var items = $('li');
+            items.sort(function(a, b){
+                return +$(a).data('datetime') - +$(b).data('datetime');
+            });
+            break;
+
+        case "turn":
+            if (msg.hasOwnProperty("nextplayer")){
+                setMyTurn = false;
+                if (msg.nextplayer == ""){
+                    console.log("your turn");
+                    setMyTurn(true);
+                    handleInput();
+                }
+            }
+            if (msg.hasOwnProperty("trajectory")){
+                let trace = msg.trajectory.valueOf();
+                bullet.bulletPath = trace;
+            }
+        break;
+
+        case "error":
+            if (msg.hasOwnProperty("message")) {
+                if (msg.message == "Not your turn") {
+                    console.log("Not your turn");
+                    setMyTurn(false);
+                    unbindHandler();
+                }
+            }
+            break;
+    }
 
 };
 
