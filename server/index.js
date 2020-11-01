@@ -1,7 +1,7 @@
 /*
 Cannonistic by O.S. and Y.vK, done at the Bsc Inf @ FFHS (WebE)
 */
-var VERSION = "0.0.2" 
+var VERSION = "0.0.3" 
 
 
 
