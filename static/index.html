@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cannonistic</title>
     <link rel="stylesheet" href="css/game.css">
     <link rel="stylesheet" href="css/mainpage.css">
-
-    </head>
 </head>
 
 <body>
+    <div id="menudiv">
+        <img id="menudivbg" src="./images/background.png" alt="BG">
+        <form id="menunewjoin" action="javascript:void(0);">
+            <h1>Welcome to Cannonistic</h1>
+            <div class="question">
+                <button id="btn_newgame">New Game</button>
+            </div>
+            <div class="question">
+                <button id="btn_joingame" onclick="">Join Game</button>
+                <input id="txt_gameid" type="text" required class="hidden" />
+                <label id="lbl_txt_gameid" class="hidden">GameID</label>
+            </div>
+        </form>
 
-    <div class="banner" id="Banner" align="center">
-        <h1 id="title"><img id="cannon_right" src="images/cannon.png">Cannonistic<img id="cannon_left" src="images/cannon.png"></h1>
-        <h2>Wer hat die beste Artillerie!</h2>
-        <h3>Who dares wins!!!</h3>
+        <form id="menunew" action="javascript:void(0);" class="hidden">
+            <h1>New Game has been created</h1>
+            <div class="question">
+                <input id="txt_youid" type="text"  />
+                <label>Your GameID</label>
+            </div>
+            <h3>To let him play against you, send him this GameID</h3>
+            <div class="question">
+                <input id="txt_enyid" type="text"  />
+                <label>Your Enemys GameID</label>
+            </div>
+            <div class="question">
+                <input id="txt_newname" type="text"  />
+                <label>Set a Playername (optional)</label>
+            </div>
+            <div class="question">
+                <input id="txt_newpass" type="text"  />
+                <label>Set a password (optional)</label>
+            </div>
+            <button id="btn_setnamepass">Set Name/Password</button>
+            <button id="btn_play">Start Game</button>
+        </form>
     </div>
 
-
-    <input type="button" id="btn_newgame" value="New Game">
-    <input type="text" id="txt_gameid" placeholder="GameID">
-    <input type="text" id="txt_pass" placeholder="Password">
-    <input type="button" id="btn_joingame" value="Join Game by GameID">
-    <br>
-    <input type="text" id="txt_youid" placeholder="Your ID" disabled=true>
-    <input type="text" id="txt_enyid" placeholder="Enemy ID" disabled=true>
-    <br>
-    <input type="text" id="txt_newname" placeholder="Set Name">
-    <input type="text" id="txt_newpass" placeholder="Set Pass">
-    <input type="button" id="btn_setnamepass" value="Set Name/Pass">
-
-    <div id ="canvas">
+    <div id ="canvas" hidden>
         <canvas id="background_canvas" width="4096" height="2160">Scene</canvas>
         <canvas id="foreground_canvas" width="4096" height="2160">Scene</canvas>
     </div>
-
+  <!--
     <div class="chat" id="chat">
         <form id="chatform">
             <textarea id="chat-input" placeholder="Nachricht eingeben"></textarea>
@@ -44,7 +61,7 @@
         </form>
 
         <ul id="chat-history"></ul>
-    </div>
+    </div>-->
 
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/sha256-min.js"></script>
@@ -59,4 +76,5 @@
 
     <!--<script src="js/cannon_old.js"></script>-->
 </body>
+
 </html>
