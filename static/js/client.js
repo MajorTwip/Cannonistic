@@ -22,6 +22,7 @@ connection.onmessage = function (event) {
     console.log('json', msg);
 
     switch (msg.type){
+
         case "initgame":
             console.log('init');
             //if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
@@ -36,10 +37,6 @@ connection.onmessage = function (event) {
             manageTurns(msg);
 
             return;
-
-        case ("join"):
-            console.log('joined');
-            break;
 
         case "chat":
             var ul_chat = $("#chat-history");
@@ -90,14 +87,16 @@ function manageTurns(msg){
 
         if (msg.state == "T1") {
             if ($("#txt_youid").val() == msg.gameid1){
-                console.log('state T1', $("#txt_youid").val());
+                //console.log('state T1', $("#txt_youid").val());
                 setMyTurn(true);
                 handleInput();
+                playerone = true;
             }
             else{
-                console.log(' T1, noooo');
+                //console.log(' T1, noooo');
                 setMyTurn(false);
                 unbindHandler();
+                playerone = false;
             }
         }
 
@@ -105,11 +104,13 @@ function manageTurns(msg){
             if ($("#txt_youid").val() == msg.gameid2){
                 setMyTurn(true);
                 handleInput();
+                playertwo = true;
             }
             else {
-                console.log(' T2, noooo');
+                //console.log(' T2, noooo');
                 setMyTurn(false);
                 unbindHandler();
+                playertwo = false;
             }
         }
     }

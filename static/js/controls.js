@@ -1,6 +1,6 @@
 // Cannon controls
 let myTurn = true;
-let gunnr = 1;
+let gunnr = -1;
 let v0 = 0;
 let elevation = 800;
 let loadingInterval;
@@ -56,10 +56,10 @@ function load(){
 
 // JSON-Object should now match to JSON-Schema
 function sendToServer(gun, v, e) {
-
+    setGunNr();
     jsonObj_newturn = {
         "type": "newturn",
-            "gunnr": gun,
+            "gunnr": gunnr,
             "v0" : Math.round(v),
             "elevation": Math.round(e)
     }
@@ -71,6 +71,7 @@ function sendToServer(gun, v, e) {
 // fire
 function fire() {
     //console.log("fire");
+
     sendToServer(gunnr, v0, getElevation());
     myTurn = false;
     firing = true;
@@ -111,6 +112,19 @@ function getElevation(){
 
 function getV0(){
     return v0;
+}
+
+function setGunNr(){
+    if (playerone){
+        gunnr = 0;
+    }
+    else{
+        gunnr = 1;
+    }
+}
+
+function getGunNr(){
+    return gunnr;
 }
 
 if (isMyTurn()) {

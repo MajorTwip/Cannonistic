@@ -24,7 +24,7 @@ let bullet = {
 
         if (this.i < traceLength) {
 
-            this.x = Math.round(this.bulletPath[this.i]["x"]-x) ;
+            this.x = Math.round(this.bulletPath[this.i]["x"]);
             this.y = Math.round(this.bulletPath[this.i++]["y"]);
 
         }

@@ -1,3 +1,8 @@
+let width;
+let height;
+let playerone;
+let playertwo;
+
 window.onload = function () {
 
     // Get canvas and context
@@ -6,8 +11,7 @@ window.onload = function () {
     var b_ctx = b_canvas.getContext("2d");
     var f_ctx = f_canvas.getContext("2d");
 
-    let width;
-    let height;
+
 
     // Get Size of Window
     //function adaptWindowSize()
@@ -62,16 +66,23 @@ window.onload = function () {
         //TADA
         //Links = -1600
         //Rechts = +1600
-        //getElevation liefert -7 bis +7 (Wieso?)
         //drawCannon(150, 150, 1600 * getElevation()/7);
-        drawCannon(150, 150, getElevation());
 
+        // player one only left cannon
+        if (playerone) {
+            drawCannon(150, 150, getElevation());
+        }
+        else{
+            drawCannon(150, 150, 800);
+        }
 
-
-        //DANCING CANNON
-        drawCannon(1000, 150, -1600 + 3200 * Math.random());
-
-
+        // player two only right cannon
+        if (playertwo) {
+            drawCannon(1000, 150, -getElevation());
+        }
+        else{
+            drawCannon(1000, 150, -800);
+        }
     }
 
     function drawCannon(x, y, ele) {
@@ -121,7 +132,7 @@ window.onload = function () {
     let angle = getElevation();
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
-    bullet = bullet.create(-tankpivotX / scalingFactor, -tankpivotY / scalingFactor, 50);
+    bullet = bullet.create(100, height - 100 , 50);
 
 
     //elevate();
