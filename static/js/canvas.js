@@ -20,8 +20,8 @@ window.onload = function () {
         width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
         height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
         */
-        width = b_canvas.width = f_canvas.width = window.innerWidth;
-        height = b_canvas.height = f_canvas.height = window.innerHeight;
+        width = b_canvas.width;
+        height = b_canvas.height;
     }
 
     //window.onresize = adaptWindowSize;
