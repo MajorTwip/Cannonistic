@@ -4,14 +4,14 @@ function getInitialGunStates(gameid1,gameid2){
     guns[0].gunnr = 0;
     guns[0].owner = gameid1;
     guns[0].health = 1024;
-    guns[0].x=50;
-    guns[0].y=100;
+    guns[0].x=400;
+    guns[0].y=300;
     guns[1] = new Object();
     guns[1].owner = gameid2;
     guns[1].health = 1024;
     guns[1].gunnr = 1;
-    guns[1].x=4096-50;
-    guns[1].y=100;
+    guns[1].x=4096-400;
+    guns[1].y=300;
     return guns;
 }
 

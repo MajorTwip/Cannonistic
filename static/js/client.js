@@ -100,6 +100,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
 
     function manageTurns(msg) {
+        currentgame = msg;
         if (msg.hasOwnProperty("state")) {
 
             if (msg.state == "T1") {

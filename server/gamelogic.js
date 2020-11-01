@@ -1,5 +1,5 @@
 var v0scale = 1/50;
-var gravityScale = 1/1;
+var gravityScale = 1/10;
 var windScale = 1/1000;
 var maxwind = 100;
 

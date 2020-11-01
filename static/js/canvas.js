@@ -1,7 +1,7 @@
 let width;
 let height;
-let playerone;
-let playertwo;
+
+let currentgame;
 
 window.onload = function () {
 
@@ -62,12 +62,25 @@ window.onload = function () {
         //debug indicator
         f_ctx.fillRect(-2, -2, 20, 50 * Math.random());
 
+        if(currentgame!==undefined){
+            if(currentgame.hasOwnProperty("guns")){
+                let guns = currentgame.guns;
+                guns.forEach(gun=>{
+                    if(gun.owner == $("#txt_youid").val() && myTurn){
+                        drawCannon(gun.x,gun.y,getElevation())
+                    }else{
+                        drawCannon(gun.x,gun.y,800)
+                    }
+                });
+            }
+        }
+
 
         //TADA
         //Links = -1600
         //Rechts = +1600
         //drawCannon(150, 150, 1600 * getElevation()/7);
-
+        /*
         // player one only left cannon
         if (playerone) {
             drawCannon(150, 150, getElevation());
@@ -83,6 +96,7 @@ window.onload = function () {
         else{
             drawCannon(1000, 150, -800);
         }
+        */
     }
 
     function drawCannon(x, y, ele) {
