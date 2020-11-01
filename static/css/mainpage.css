@@ -94,7 +94,7 @@ form {
   transform: translate(-50%, 0);
 }
 form h1 {
-  color: #ff4a56;
+  color: #000;
   font-weight: 100;
   letter-spacing: 0.01em;
   margin-left: 15px;
@@ -103,7 +103,7 @@ form h1 {
 }
 
 form h3 {
-  color: #ff4a56;
+  color: #000;
   font-weight: 50;
   letter-spacing: 0.01em;
   margin-left: 15px;
@@ -143,7 +143,7 @@ form .question:last-of-type {
 }
 form .question label {
   transform-origin: left center;
-  color: #ff4a56;
+  color: #000;
   font-weight: 100;
   letter-spacing: 0.01em;
   font-size: 17px;
@@ -166,7 +166,7 @@ form .question input[type="text"] {
   box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 60px;
-  color: #ff4a56;
+  color: #000;
   font-weight: 100;
   letter-spacing: 0.01em;
   position: relative;
