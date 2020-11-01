@@ -68,6 +68,8 @@ body{
 }
 
 #canvas{
+    width: 98vw;
+    height: 98vh;
     display: block;
 }
 
@@ -75,13 +77,13 @@ body{
     display: block;
     margin: 0 auto;
     width: 97vw;
+    height: 20vh;
     padding: 1vw 0vw 1vw 0px;
 
 }
 
 #name, #chat-input{
     display: block;
-    width: 95vw;
     min-width: 100px;
     max-height: 10px;
     padding: 10px 10px 10px 10px;
@@ -94,7 +96,6 @@ body{
 
 #send{
     paddiing: 10px 10px 10px 10px;
-    font-size: 2vw;
     display: block;
 }
 

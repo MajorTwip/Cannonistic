@@ -1,7 +1,7 @@
 var fs = require('fs');
 const db = require('./db');
 const directory = require('./directory');
-var jschema = JSON.parse(fs.readFileSync("./doc/WS_schema_client2server.json", 'utf8'));
+var jschema = JSON.parse(fs.readFileSync("./doc/WS_schema_client2server.json", 'utf8'));//. geadded
 
 function handlews(ws, req) {
     ws.on('message', (msg)=>handlemsg(msg,ws));

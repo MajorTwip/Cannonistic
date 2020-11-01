@@ -8,10 +8,12 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "ajv": "^6.12.4",
+    "data": "^0.6.1",
     "express": "^4.16.1",
     "express-ws": "^4.0.0",
     "jquery": "^3.5.1",
-    "sqlite3": "^5.0.0",
-    "ajv": "^6.12.4"
+    "mkdir": "0.0.2",
+    "sqlite3": "^5.0.0"
   }
 }

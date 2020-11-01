@@ -1,5 +1,5 @@
 /*
-Cannonistic by O.S. and Y.vK, done at the Bsc Inf @ FFHS (WenE)
+Cannonistic by O.S. and Y.vK, done at the Bsc Inf @ FFHS (WebE)
 */
 var VERSION = "0.0.2" 
 
@@ -23,7 +23,7 @@ app.use(express.static('static'));
 
 //Defining the WS server.
 //Delegate handlich to ws_handler
-var ws_handler = require("./ws_handler");
+var ws_handler = require("./ws_handler.js");
 app.ws('/', (ws,req)=>ws_handler.handlews(ws,req));
 
 app.listen(PORT, () => {

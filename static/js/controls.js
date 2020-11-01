@@ -17,7 +17,7 @@ let oldY = 0;
 
 let handleInput = function() {
     $("#foreground_canvas").bind("mousedown", function(e){
-        console.log("down");
+        //console.log("down");
         loadingInterval = setInterval(load, 1);
     });
 
@@ -32,15 +32,15 @@ let handleInput = function() {
                 elevation = elevation + scaler;
             }
         }
-        console.log("elevation: ", elevation)
+        //console.log("elevation: ", elevation)
         oldY = e.pageY;
 
-        console.log(elevation / scaler);
+        //console.log(elevation / scaler);
 
     });
 
     $("#foreground_canvas").bind("mouseup", function(e){
-        console.log("up");
+        //console.log("up");
         stopLoading();
         fire()
     });
@@ -50,7 +50,7 @@ let handleInput = function() {
 function load(){
     if (v0 < 1024) {
         v0+=4;
-        console.log('v0: ', v0);
+        //console.log('v0: ', v0);
     }
 }
 
@@ -64,13 +64,13 @@ function sendToServer(gun, v, e) {
             "elevation": Math.round(e)
     }
 
-    console.log(jsonObj_newturn);
+    //console.log(jsonObj_newturn);
     connection.send(JSON.stringify(jsonObj_newturn));
 }
 
 // fire
 function fire() {
-    console.log("fire");
+    //console.log("fire");
     sendToServer(gunnr, v0, getElevation());
     myTurn = false;
     firing = true;
@@ -93,12 +93,12 @@ function setMyTurn(myturn){
     myTurn = myturn;
 }
 
-function setFiring(fire){
-    firing = fire;
-}
-
 function isMyTurn(){
     return myTurn;
+}
+
+function setFiring(fire){
+    firing = fire;
 }
 
 function isFiring(){

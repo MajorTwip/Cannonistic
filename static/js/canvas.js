@@ -10,9 +10,17 @@ window.onload = function () {
     let height;
 
     // Get Size of Window
+    //function adaptWindowSize()
+    {
+        /*
+        width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
+        height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
+        */
+        width = b_canvas.width = f_canvas.width = window.innerWidth;
+        height = b_canvas.height = f_canvas.height = window.innerHeight;
+    }
 
-    width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
-    height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
+    //window.onresize = adaptWindowSize;
 
     var tank = new Image();
     var barrel = new Image();
@@ -102,16 +110,18 @@ window.onload = function () {
     console.log(width, height);
     let scaleFactor = 0.03;
 
+    /*
     x_pos = width * scaleFactor;
     y_pos = height - (height * scaleFactor) * 5;
 
-    console.log(x_pos, y_pos);
 
+    console.log(x_pos, y_pos);
+    */
     
     let angle = getElevation();
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
-    bullet = bullet.create(x_pos, y_pos, 2, velocity, angle);
+    bullet = bullet.create(-tankpivotX / scalingFactor, -tankpivotY / scalingFactor, 50);
 
 
     //elevate();
@@ -120,7 +130,7 @@ window.onload = function () {
         let animation = requestAnimationFrame(update);
 
         //f_ctx.clearRect(0, 0, width, height);
-        //b_ctx.clearRect(0, 0, width, height);
+        b_ctx.clearRect(0, 0, width, height);
 
 
         // elevation barrel
@@ -140,7 +150,7 @@ window.onload = function () {
         //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
 
 
-        let deg = getElevation();
+        //let deg = getElevation();
 
         //barrel.elevate(f_ctx, x_pos,y_pos , deg*0.05);
         //barrel.draw(f_ctx);

@@ -23,13 +23,18 @@ connection.onmessage = function (event) {
 
     switch (msg.type){
         case "initgame":
-            if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
+            console.log('init');
+            //if($("#txt_gameid").val() == msg.gameid1 || $("#txt_gameid").val() == ""){
+            if($("#txt_gameid").val() == ""){
                 $("#txt_youid").val(msg.gameid1);
                 $("#txt_enyid").val(msg.gameid2);
             } else{
                 $("#txt_enyid").val(msg.gameid1);
                 $("#txt_youid").val(msg.gameid2);
             }
+
+            manageTurns(msg);
+
             return;
 
         case ("join"):
@@ -50,14 +55,9 @@ connection.onmessage = function (event) {
             break;
 
         case "turn":
-            if (msg.hasOwnProperty("nextplayer")){
-                setMyTurn = false;
-                if (msg.nextplayer == ""){
-                    console.log("your turn");
-                    setMyTurn(true);
-                    handleInput();
-                }
-            }
+
+            manageTurns(msg);
+
             if (msg.hasOwnProperty("trajectory")){
                 let trace = msg.trajectory.valueOf();
                 bullet.bulletPath = trace;
@@ -75,8 +75,47 @@ connection.onmessage = function (event) {
             break;
     }
 
+
+
+    if (msg.hasOwnProperty("trajectory")){
+        let trace = msg.trajectory.valueOf();
+        bullet.bulletPath = trace;
+    }
+
 };
 
+
+function manageTurns(msg){
+    if (msg.hasOwnProperty("state")){
+
+        if (msg.state == "T1") {
+            if ($("#txt_youid").val() == msg.gameid1){
+                console.log('state T1', $("#txt_youid").val());
+                setMyTurn(true);
+                handleInput();
+            }
+            else{
+                console.log(' T1, noooo');
+                setMyTurn(false);
+                unbindHandler();
+            }
+        }
+
+        else if (msg.state == "T2"){
+            if ($("#txt_youid").val() == msg.gameid2){
+                setMyTurn(true);
+                handleInput();
+            }
+            else {
+                console.log(' T2, noooo');
+                setMyTurn(false);
+                unbindHandler();
+            }
+        }
+    }
+
+
+}
 
 $('#chatform').submit(function(e){
     e.preventDefault();
