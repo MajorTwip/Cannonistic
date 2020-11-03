@@ -15,6 +15,10 @@ let scaler = max_limit/90;
 // Handles mouse input
 let oldY = 0;
 
+// Turn controls
+let playerone = false;
+let playertwo = false;
+
 let handleInput = function() {
     $("#foreground_canvas").bind("mousedown", function(e){
         //console.log("down");

@@ -56,16 +56,13 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 break;
 
             case "chat":
-                var ul_chat = $("#chat-history");
-                var chatline = document.createElement('li');
-                chatline.innerText = msg.sender + ": " + msg.chatmessage;
-                $(chatline).attr("data-datetime", msg.datetime)
-                ul_chat.append(chatline);
+                if (msg.hasOwnProperty("chatmessage")) {
 
-                var items = $('li');
-                items.sort(function (a, b) {
-                    return +$(a).data('datetime') - +$(b).data('datetime');
-                });
+                    let sender = msg.sender;
+                    let chatmessage = msg.chatmessage;
+                    insertChat(sender, chatmessage, 0);
+
+                }
                 break;
 
             case "turn":
@@ -98,6 +95,9 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     };
 
+    function sendMSG(msg){
+        connection.send(msg);
+    }
 
     function manageTurns(msg) {
         currentgame = msg;
@@ -188,8 +188,9 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
         $("#btn_play").click(function () {
                 $("#menudiv").hide();
                 $("#canvas").show();
+                $(".frame").show();
         });
-
+/*
     $('#chatform').submit(function (e) {
         e.preventDefault();
         var msg = new Object();
@@ -205,6 +206,9 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
             sendMessage();
         }
     });
+*/
+
+
 
 
 })(jQuery)

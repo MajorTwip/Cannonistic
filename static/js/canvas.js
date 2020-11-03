@@ -17,7 +17,7 @@ window.onload = function () {
     //function adaptWindowSize()
     {
         /*
-        width = b_canvas.width = f_canvas.width = window.innerWidth - 100;
+        width = b_cajnvas.width = f_canvas.width = window.innerWidth - 100;
         height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
         */
         width = b_canvas.width;
@@ -66,11 +66,12 @@ window.onload = function () {
             if(currentgame.hasOwnProperty("guns")){
                 let guns = currentgame.guns;
                 guns.forEach(gun=>{
+                    let ele = 800;
                     if(gun.owner == $("#txt_youid").val() && myTurn){
                         drawCannon(gun.x,gun.y,getElevation())
-                    }else{
-                        drawCannon(gun.x,gun.y,800)
-                    }
+                        }else{
+                            drawCannon(gun.x,gun.y,ele)
+                        }
                 });
             }
         }
@@ -96,7 +97,7 @@ window.onload = function () {
         else{
             drawCannon(1000, 150, -800);
         }
-        */
+    */
     }
 
     function drawCannon(x, y, ele) {
@@ -146,7 +147,7 @@ window.onload = function () {
     let angle = getElevation();
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
-    bullet = bullet.create(100, height - 100 , 50);
+    bullet = bullet.create(100, height - 100 , 2);
 
 
     //elevate();

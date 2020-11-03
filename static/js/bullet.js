@@ -19,7 +19,6 @@ let bullet = {
 
         //console.log(this.bulletPath);
         let traceLength = this.bulletPath.length;
-        x = 4074;
 
 
         if (this.i < traceLength) {
