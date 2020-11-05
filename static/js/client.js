@@ -25,7 +25,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
         console.log('received', event.data);
         let msg = JSON.parse(event.data);
         console.log('json', msg);
-
+        manageTrajectory(msg);
         switch (msg.type) {
 
             case "initgame":
@@ -52,6 +52,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 $("#menunew").removeClass("hidden");
 
                 manageTurns(msg);
+                //manageTrajectory(msg);
 
                 break;
 
@@ -69,10 +70,17 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
                 manageTurns(msg);
 
+                if (msg.hasOwnProperty("elevation")) {
+                    let ele = msg.elevation.valueOf();
+                    bullet.muzzlePos(ele);
+                }
+                //manageTrajectory(msg);
+
+                /*
                 if (msg.hasOwnProperty("trajectory")) {
                     let trace = msg.trajectory.valueOf();
                     bullet.bulletPath = trace;
-                }
+                }*/
                 break;
 
             case "error":
@@ -131,6 +139,13 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                     playertwo = false;
                 }
             }
+        }
+    }
+
+    function manageTrajectory(msg){
+        if (msg.hasOwnProperty("trajectory")) {
+            let trace = msg.trajectory.valueOf();
+            bullet.bulletPath = trace;
         }
     }
 

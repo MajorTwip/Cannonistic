@@ -3,6 +3,9 @@ let height;
 
 let currentgame;
 
+let barrel_width;
+let barrel_heigt;
+
 window.onload = function () {
 
     // Get canvas and context
@@ -39,8 +42,8 @@ window.onload = function () {
         drawCannons();
     }
     barrel.onload = function () {
-        barrel.width = barrel.naturalWidth;
-        barrel.height = barrel.naturalHeight;
+        barrel.width = barrel_width = barrel.naturalWidth;
+        barrel.height = barrel_heigt = barrel.naturalHeight;
         drawCannons();
     }
 
@@ -147,7 +150,7 @@ window.onload = function () {
     let angle = getElevation();
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
-    bullet = bullet.create(100, height - 100 , 2);
+    bullet = bullet.create(10);
 
 
     //elevate();
@@ -168,10 +171,14 @@ window.onload = function () {
         //cannon_r.draw(f_ctx);
 
         // Draw bullet
-        if (isFiring()) {
-            bullet.draw(b_ctx);
-            bullet.trajectory();
-        }
+        //if (isFiring()) {
+        b_ctx.translate(0, height);
+        b_ctx.clearRect(0, 0, width, -height);
+        bullet.draw(b_ctx);
+        bullet.trajectory();
+        b_ctx.translate(0, -height);
+
+        //}
         //barrel.draw(f_ctx);
         //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
 
