@@ -70,7 +70,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
                 manageTurns(msg);
 
-                if (msg.hasOwnProperty("elevation")) {
+                if (msg.hasOwnProperty("lastele")) {
                     let ele = msg.elevation.valueOf();
                     bullet.muzzlePos(ele);
                 }
@@ -116,13 +116,13 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                     //console.log('state T1', $("#txt_youid").val());
                     setMyTurn(true);
                     handleInput();
-                    playerone = true;
+
                 }
                 else {
                     //console.log(' T1, noooo');
                     setMyTurn(false);
                     unbindHandler();
-                    playerone = false;
+;
                 }
             }
 
@@ -130,13 +130,13 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 if ($("#txt_youid").val() == msg.gameid2) {
                     setMyTurn(true);
                     handleInput();
-                    playertwo = true;
+
                 }
                 else {
                     //console.log(' T2, noooo');
                     setMyTurn(false);
                     unbindHandler();
-                    playertwo = false;
+
                 }
             }
         }
@@ -151,6 +151,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     //bind newgame to Button
     $("#btn_newgame").click(function () {
+        playerone = true;
         if (connection.OPEN) {
             var msg = new Object();
             msg.gameid = "";
@@ -165,6 +166,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
     //bind  to Button
     $("#btn_joingame").click(function () {
         console.log("Joingame selected")
+        playerone = false;
         if($("#txt_gameid").val()==""){
             $("#txt_gameid").removeClass("hidden");
             $("#lbl_txt_gameid").removeClass("hidden");

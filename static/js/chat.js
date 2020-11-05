@@ -16,12 +16,11 @@ function formatDate(date) {
 }
 
 //-- No use time. It is a javaScript effect.
-function insertChat(who, text, time = 0){
+function insertChat(who, text){
     let control = "";
     let date = formatDate(new Date());
 
-
-    if (who == $('#txt_youid').val()){
+    if (who == $('#txt_youid').val() && playerone || who != $('#txt_youid').val() && !playerone ){
 
         control = '<li tabindex=' + ++index + ' style="width:100%">' +
             '<div class="msj macro">' +
