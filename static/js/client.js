@@ -69,6 +69,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
             case "turn":
 
                 manageTurns(msg);
+                manageHealth(msg);
 
                 if (msg.hasOwnProperty("lastele")) {
                     let ele = msg.elevation.valueOf();
@@ -103,11 +104,24 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     };
 
+    function manageHealth(msg){
+        if (msg.hasOwnProperty("state")) {
+            if (playerone) {
+                     $("#healthindicator-l").addClass('healthimpact');
+            }else{
+                $("#healthindicator-r").addClass('healthimpact');
+            }
+            $("#powerindicator-r").removeClass('healthimpact')
+        }
+
+    }
+
     function sendMSG(msg){
         connection.send(msg);
     }
 
     function manageTurns(msg) {
+
         currentgame = msg;
         if (msg.hasOwnProperty("state")) {
 
@@ -116,13 +130,14 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                     //console.log('state T1', $("#txt_youid").val());
                     setMyTurn(true);
                     handleInput();
+                    $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T1, noooo');
                     setMyTurn(false);
                     unbindHandler();
-;
+                    $("#turnindicator").html("Enemy's turn");
                 }
             }
 
@@ -130,12 +145,14 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 if ($("#txt_youid").val() == msg.gameid2) {
                     setMyTurn(true);
                     handleInput();
+                    $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T2, noooo');
                     setMyTurn(false);
                     unbindHandler();
+                    $("#turnindicator").html("Enemy's turn");
 
                 }
             }
@@ -152,6 +169,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
     //bind newgame to Button
     $("#btn_newgame").click(function () {
         playerone = true;
+
         if (connection.OPEN) {
             var msg = new Object();
             msg.gameid = "";
@@ -206,6 +224,16 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 $("#menudiv").hide();
                 $("#canvas").show();
                 $(".frame").show();
+                $("#turn").show();
+                $("#health").show();
+                if (playerone){
+                    $("#power-l").show();
+                }else{
+                    $("#power-r").show();
+                }
+
+                $(".svg").show();
+
         });
 /*
     $('#chatform').submit(function (e) {
