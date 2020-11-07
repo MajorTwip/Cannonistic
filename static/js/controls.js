@@ -14,6 +14,8 @@ let scaler = max_limit/90;
 
 // Handles mouse input
 let oldY = 0;
+let mouseX=-1;
+let mouseY=-1;
 
 // Turn controls
 let playerone = false;
@@ -26,7 +28,12 @@ let handleInput = function() {
     });
 
     $("#foreground_canvas").bind("mousemove", function(e) {
+        mouseX = e.page;
+        mouseX = e.pageY;
+        console.log(`X: ${mouseX} Y: ${mouseY}`);
 
+
+        /*
         if (oldY > e.pageY) {
             if (elevation >= min_limit) {
                 elevation = elevation - scaler;
@@ -38,7 +45,7 @@ let handleInput = function() {
         }
         //console.log("elevation: ", elevation)
         oldY = e.pageY;
-
+        */
         //console.log(elevation / scaler);
 
     });
@@ -110,8 +117,12 @@ function isFiring(){
     return firing;
 }
 
-function getElevation(){
-    return elevation;
+function getMouseX(){
+    return mouseX;
+}
+
+function getMouseY(){
+    return mouseY;
 }
 
 function getV0(){

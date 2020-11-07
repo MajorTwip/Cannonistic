@@ -71,7 +71,9 @@ window.onload = function () {
                 guns.forEach(gun=>{
                     let ele = 800;
                     if(gun.owner == $("#txt_youid").val() && myTurn){
-                        drawCannon(gun.x,gun.y,getElevation())
+                        //calculate elevation
+                        let ele = Math.atan((getMouseX-gun.x)/(getMouseY-gun.y));//should be 0-tolerant, JS retorns on x/0 "INFINITY" and ArcTan INFINITY shoulb be 0...
+                        drawCannon(gun.x,gun.y,ele)
                         }else{
                             drawCannon(gun.x,gun.y,ele)
                         }
