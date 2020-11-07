@@ -207,25 +207,5 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 $("#canvas").show();
                 $(".frame").show();
         });
-/*
-    $('#chatform').submit(function (e) {
-        e.preventDefault();
-        var msg = new Object();
-        msg.type = "newchat";
-        msg.gameid = $('#txt_youid').val();
-        msg.newchatmessage = $('#chat-input').val();
-        connection.send(JSON.stringify(msg));
-        document.querySelector('#chat-input').value = '';
-    });
-
-    $("#chat-input").keypress(function (event) {
-        if (event.keyCode === 13) {
-            sendMessage();
-        }
-    });
-*/
-
-
-
 
 })(jQuery)
