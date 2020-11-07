@@ -19,10 +19,6 @@ window.onload = function () {
     // Get Size of Window
     //function adaptWindowSize()
     {
-        /*
-        width = b_cajnvas.width = f_canvas.width = window.innerWidth - 100;
-        height = b_canvas.height = f_canvas.height = width * 1080 / 1920;
-        */
         width = b_canvas.width;
         height = b_canvas.height;
     }
@@ -72,8 +68,11 @@ window.onload = function () {
                     let ele = 800;
                     if(gun.owner == $("#txt_youid").val() && myTurn){
                         //calculate elevation
-                        let ele = Math.atan((getMouseX-gun.x)/(getMouseY-gun.y));//should be 0-tolerant, JS retorns on x/0 "INFINITY" and ArcTan INFINITY shoulb be 0...
-                        drawCannon(gun.x,gun.y,ele)
+                        let deltaX=getMouseX()-gun.x;
+                        let deltaY=getMouseY()-gun.y;
+                        if(deltaY<=0)deltaY=1;
+                        let ele = Math.atan(deltaX/deltaY);//should be 0-tolerant, JS retorns on x/0 "INFINITY" and ArcTan INFINITY shoulb be 0...
+                        drawCannon(gun.x,gun.y,ele*1600/(Math.PI/2))
                         }else{
                             drawCannon(gun.x,gun.y,ele)
                         }
@@ -82,27 +81,6 @@ window.onload = function () {
         }
 
 
-        //TADA
-        //Links = -1600
-        //Rechts = +1600
-        //drawCannon(150, 150, 1600 * getElevation()/7);
-        /*
-        // player one only left cannon
-        if (playerone) {
-            drawCannon(150, 150, getElevation());
-        }
-        else{
-            drawCannon(150, 150, 800);
-        }
-
-        // player two only right cannon
-        if (playertwo) {
-            drawCannon(1000, 150, -getElevation());
-        }
-        else{
-            drawCannon(1000, 150, -800);
-        }
-    */
     }
 
     function drawCannon(x, y, ele) {
@@ -139,81 +117,22 @@ window.onload = function () {
     }
 
     console.log(width, height);
-    let scaleFactor = 0.03;
 
-    /*
-    x_pos = width * scaleFactor;
-    y_pos = height - (height * scaleFactor) * 5;
-
-
-    console.log(x_pos, y_pos);
-    */
     
-    let angle = getElevation();
-    let velocity = getV0();
-    console.log('velo ', velocity, 'angle', angle);
     bullet = bullet.create(10);
 
 
-    //elevate();
     function update() {
         drawCannons();
         let animation = requestAnimationFrame(update);
 
-        //f_ctx.clearRect(0, 0, width, height);
         b_ctx.clearRect(0, 0, width, height);
 
-
-        // elevation barrel
-        //let degree = controls.elevate(f_canvas);
-        //console.log('degree: ' + degree);
-
-        // Draw Tanks
-        //cannon.draw(f_ctx);
-        //cannon_r.draw(f_ctx);
-
-        // Draw bullet
-        //if (isFiring()) {
         b_ctx.translate(0, height);
         b_ctx.clearRect(0, 0, width, -height);
         bullet.draw(b_ctx);
         bullet.trajectory();
         b_ctx.translate(0, -height);
-
-        //}
-        //barrel.draw(f_ctx);
-        //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
-
-
-        //let deg = getElevation();
-
-        //barrel.elevate(f_ctx, x_pos,y_pos , deg*0.05);
-        //barrel.draw(f_ctx);
-
-
-
-
-
-
-        //b_ctx.drawImage(cannon.img, 0, 0, 200, 100)
-
-
-
-        // Collision detection macht der Server
-        /*let imageData;
-        imageData = f_ctx.getImageData(bullet.x, bullet.y, bullet.rad, bullet.rad);
-        imageData.crossOrigin = "Anonymous";
-        if (imageData.data[3] > 0) {
-            console.log(bullet.x, bullet.y, bullet.rad, bullet.rad, "imagedata " + imageData.data[3]);
-            f_ctx.globalCompositeOperation = "destination-out";
-            console.log("Hit");
-            window.cancelAnimationFrame(animation);
-        } else if (bullet.x > width || bullet.x <= 0
-            || bullet.y > height || bullet.y <= 0) {
-            console.log("Miss")
-            window.cancelAnimationFrame(animation);
-        }
-        */
 
     }
 
