@@ -16,7 +16,7 @@ function getInitialGunStates(gameid1,gameid2){
 }
 
 function checkCollision(x,y){
-    if(y<=100) return true; //Below Horizon
+    if(y<=300) return true; //Below Horizon
     if(Math.abs(x-50)<30 || Math.abs(x-(4096-50))<30){ //Koord X is less than 30Px from a guncenter
         if(Math.abs(y-100)<20) return true; // Koord Y is less than 20Px from guncenter. This gives an 60x40px HitBox
     }
