@@ -104,16 +104,54 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     };
 
-    function manageHealth(msg){
+    function manageHealth(msg) {
         if (msg.hasOwnProperty("state")) {
-            if (playerone) {
-                     $("#healthindicator-l").addClass('healthimpact');
-            }else{
-                $("#healthindicator-r").addClass('healthimpact');
-            }
-            $("#powerindicator-r").removeClass('healthimpact')
-        }
+            let damage = 8; // Wert muss noch festgelegt werden
 
+            if (playerone) {
+                console.log('turn',myTurn);
+                if (myTurn) {
+                    adaptLeftHealthIndicator(damage);
+
+                } else {
+                    adaptRightHealthIndicator(damage);
+                }
+            }
+
+            if (!playerone) {
+                if (myTurn) {
+                    adaptRightHealthIndicator(damage);
+                } else {
+                    adaptLeftHealthIndicator(damage);
+                }
+            }
+
+        }
+    }
+
+    function adaptLeftHealthIndicator(damage){
+        let health_l = document.getElementById('healthindicator-l');
+        let current_with = getComputedStyle(health_l).width;
+        let str = current_with;
+        let tmp = str.substring(0, str.length - 2);
+        let wi = Math.round(parseFloat(tmp)) * 100 / innerWidth;
+        console.log('current-wi-l:', wi, 'innerwidth', innerWidth);
+        $("#healthindicator-l").css({'width': wi - damage + "vw"});
+    }
+
+    function adaptRightHealthIndicator(damage){
+        let health_r = document.getElementById('healthindicator-r');
+        let current_x = getComputedStyle(health_r).x;
+        let current_w = getComputedStyle(health_r).width;
+        let strx = current_x;
+        let strw = current_w;
+        let tmpx = strx.substring(0, strx.length - 2);
+        console.log('tmpx', tmpx);
+        let tmpw = strw.substring(0, strw.length - 2);
+        let x = Math.round(parseFloat(tmpx)) * 100 / innerWidth;
+        let w = Math.round(parseFloat(tmpw)) * 100 / innerWidth;
+        console.log('currentx-r:', current_x, 'x-r:', x, 'current-w-r', w, 'innerwidth', innerWidth);
+        $("#healthindicator-r").css({'x': x + damage + "vw", 'width': w - damage + "vw"});
     }
 
     function sendMSG(msg){
