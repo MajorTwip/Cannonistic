@@ -3,15 +3,22 @@ let height;
 
 let currentgame;
 
+let b_ctx;
+
 let barrel_width;
-let barrel_heigt;
+let barrel_height;
+
+let scalingFactor;
+let isexploding = false;
+let dx;
+let dy;
 
 window.onload = function () {
 
     // Get canvas and context
     var b_canvas = document.getElementById("background_canvas");
     var f_canvas = document.getElementById("foreground_canvas");
-    var b_ctx = b_canvas.getContext("2d");
+    b_ctx = b_canvas.getContext("2d");
     var f_ctx = f_canvas.getContext("2d");
 
 
@@ -43,14 +50,14 @@ window.onload = function () {
     }
     barrel.onload = function () {
         barrel.width = barrel_width = barrel.naturalWidth;
-        barrel.height = barrel_heigt = barrel.naturalHeight;
+        barrel.height = barrel_height = barrel.naturalHeight;
         drawCannons();
     }
 
     tank.src = 'images/tank.png';
     barrel.src = 'images/tank_barrel.png';
 
-    var scalingFactor = 10; // 1/x
+    scalingFactor = 10; // 1/x
 
     //To translate Floor=0 to Canvas' Heaven=0
     function translateY(coordY) {
@@ -151,8 +158,9 @@ window.onload = function () {
     let angle = getElevation();
     let velocity = getV0();
     console.log('velo ', velocity, 'angle', angle);
-    bullet = bullet.create(10);
+    bullet = bullet.create(4);
 
+    let explosion = createExplosion();
 
     //elevate();
     function update() {
@@ -177,6 +185,12 @@ window.onload = function () {
         b_ctx.clearRect(0, 0, width, -height);
         //bullet.draw(b_ctx);
         bullet.trajectory(b_ctx);
+        if (isexploding) {
+            updateExplosion(5, explosion);
+            //f_ctx.drawImage(explosionImage, 0, 0, 64, 64, 0, 0, 64, 64);
+            drawExplosion(b_ctx, explosion, dx, dy);
+        }
+
         b_ctx.translate(0, -height);
 
         //}

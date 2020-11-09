@@ -1,5 +1,7 @@
 const connection = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
 
+let health_playerone;
+let health_playertwo;
 
 (function ($) {
 
@@ -96,7 +98,6 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
         }
 
 
-
         if (msg.hasOwnProperty("trajectory")) {
             let trace = msg.trajectory.valueOf();
             bullet.bulletPath = trace;
@@ -105,7 +106,22 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
     };
 
     function manageHealth(msg) {
-        if (msg.hasOwnProperty("state")) {
+
+        if (msg.hasOwnProperty("guns")) {
+            let guns = currentgame.guns;
+            guns.forEach(gun=>{
+                if (gunnr == 0){
+                    console.log('gun 0');
+                    //health_playerone = msg.guns.;
+                }
+
+                if (gunnr == 1){
+                    console.log('gun 1');
+                    //health_playertwo = health;
+                }
+
+            })
+            // healthplayer -
             let damage = 8; // Wert muss noch festgelegt werden
 
             if (playerone) {

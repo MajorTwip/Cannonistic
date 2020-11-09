@@ -100,13 +100,13 @@ function fire() {
     let tmp = 100-parseFloat(fl);
     v0 = 1024/100*tmp;
     console.log("v0", Math.round(v0));
-
+    bullet.muzzlePos(parseInt(fl));
     sendToServer(gunnr, Math.round(v0), getElevation());
     myTurn = false;
     firing = true;
     unbindHandler();
     v0 = 1;
-    elevation = 800;
+    //elevation = 800;
     bullet.i = 0;
 }
 
