@@ -1,0 +1,170 @@
+.svg{
+    width: 100%;
+    height: 100%;
+
+}
+#turn{
+    position: absolute;
+    top: 18vh;
+    width: 100vw;
+    height: 3vh;
+}
+
+#turnindicator{
+    text-align: center;
+}
+
+#power{
+    position: absolute;
+    z-index: 0;
+    top: 21vh;
+    width: 100vw;
+    height: 60vh;
+}
+
+#power-l{
+    position: absolute;
+    left: 2vw;
+    z-index: 0;
+    top: 21vh;
+    width: 2vw;
+    height: 60vh;
+}
+
+#power-r{
+    position: absolute;
+    z-index: 0;
+    top: 21vh;
+    right: 2vw;
+    width: 2vw;
+    height: 60vh;
+}
+
+
+#powerindicator-l{
+    position: absolute;
+    /*x: 2vw;
+    y: 100%;*/
+    fill: none;
+    width: 70%;
+    height: 100%;
+    rx: 5px;
+    ry: 5px;
+}
+
+#powerindicator-l-stroke{
+    position: absolute;
+    /*x: 2vw;
+    y: 100%;*/
+    fill: none;
+    width: 70%;
+    height: 100%;
+}
+
+#powerindicator-r{
+    position: absolute;
+    /*x: 96.5vw;
+    y: 100%;*/
+    fill: none;
+    width: 70%;
+    height: 100%;
+    rx: 5px;
+    ry: 5px;
+}
+
+#powerindicator-r-stroke{
+    position: absolute;
+    /*x: 96.5vw;
+    y: 100%;*/
+    fill: none;
+    width: 70%;
+    height: 100%;
+}
+
+.health-h{
+    position: absolute;
+    y: 10%;
+    width: 40%;
+    height: 2vw;
+}
+
+#health{
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 10vh;
+}
+
+#healthindicator-l{
+    position: absolute;
+    x: 3vw;
+    width: 40vw;
+    height: 20px;
+    fill: red;
+    transition: all 0.5s;
+    rx: 5px;
+    ry: 5px;
+}
+
+#healthindicator-l-stroke{
+    position: absolute;
+    x: 3vw;
+    width: 40vw;
+    height: 20px;
+    fill: none;
+}
+
+
+#healthindicator-r{
+    position: absolute;
+    x: 55vw;
+    width: 40vw;
+    height: 20px;
+    fill: blue;
+    transition: all 0.5s;
+    rx: 5px;
+    ry: 5px;
+}
+
+#healthindicator-r-stroke{
+    position: absolute;
+    x: 55vw;
+    width: 40vw;
+    height: 20px;
+    fill: none;
+}
+
+.rand{
+    stroke:black;stroke-width:1px;rx: 5px;ry:5px;
+}
+
+.rand-l{
+    stroke:black;stroke-width:1px;rx: 5px;ry:5px;
+}
+
+.rand-r{
+    stroke:black;stroke-width:1px;rx: 5px;ry:5px;
+}
+
+@keyframes laden {
+    0%  {y: 0%;fill: red; rx: 5px; ry: 5px;}
+    100% { y: 100%; fill: green; rx: 5px; ry: 5px;}
+}
+
+.loadpower{
+    animation-name: laden;
+    animation-duration: 1s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+}
+
+@keyframes die {
+    0%  {width: 0%;}
+    100% { width: 20%;}
+}
+
+.healthimpact{
+    animation-name: die;
+    animation-duration: 0.5s;
+    animation-direction: reverse;
+}
