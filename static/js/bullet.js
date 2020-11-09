@@ -1,4 +1,6 @@
 // bullet
+
+
 let bullet = {
     x_start: 0,
     y_start: 0,
@@ -19,7 +21,6 @@ let bullet = {
         console.log('rad', rad);
 
 
-
         this.x_start = barrel_width * Math.cos(rad) + this.bulletPath[0]["x"];
         this.y_start = barrel_heigt * -Math.sin(rad) + this.bulletPath[0]["y"];
 
@@ -27,20 +28,21 @@ let bullet = {
 
     },
 
-    trajectory: function(){
-
+    trajectory: function(context){
 
         let traceLength = this.bulletPath.length;
 
-
         if (this.i < traceLength) {
+            if (this.i == 1){
+                sound("fire");
+            }
             console.log('bw', barrel_width, 'bh', barrel_heigt );
             this.x = this.x_start + Math.round(this.bulletPath[this.i]["x"]);
             this.y = this.y_start + -Math.round(this.bulletPath[this.i++]["y"]);
-            console.log(this.x, this.y);
-            //this.x += 50;
-            //this.y -= 50;
-
+            this.draw(context);
+            if (this.i == traceLength - 1){
+                sound("explode")
+            }
         }
         else{
             this.i = 0;

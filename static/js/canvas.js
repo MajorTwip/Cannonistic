@@ -75,6 +75,7 @@ window.onload = function () {
                         }else{
                             drawCannon(gun.x,gun.y,ele)
                         }
+
                 });
             }
         }
@@ -174,8 +175,8 @@ window.onload = function () {
         //if (isFiring()) {
         b_ctx.translate(0, height);
         b_ctx.clearRect(0, 0, width, -height);
-        bullet.draw(b_ctx);
-        bullet.trajectory();
+        //bullet.draw(b_ctx);
+        bullet.trajectory(b_ctx);
         b_ctx.translate(0, -height);
 
         //}
