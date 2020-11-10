@@ -18,16 +18,16 @@ let bullet = {
         let rad = ele * Math.PI /180;
         console.log('rad', rad);
 
-        let scaler = 4;
+        let scaler = 2.5;
 
         let barrel_length = Math.sqrt(barrel_width^2 + barrel_height^2) * scaler;
         console.log('barrel_length', barrel_length);
-        /*
+
         this.x_start = barrel_length * Math.cos(rad);
         this.y_start = barrel_length * -Math.sin(rad);
-*/
-        this.x_start = 0;
-        this.y_start = 0;
+
+        //this.x_start = 50;
+        //this.y_start = 50;
 
         console.log('barrel_w', barrel_width, 'barrel_h', barrel_height);
 
@@ -48,19 +48,20 @@ let bullet = {
             this.y = this.y_start + -Math.round(this.bulletPath[this.i++]["y"]);
 
             this.draw(context);
-            if (this.i == traceLength - 1){
-                dx = this.x -48;
-                dy = this.y -48;
+            if (this.i == traceLength - 5){
+                dx = this.x -73;
+                dy = this.y -73;
 
                 console.log('dx',dx,'dy', dy);
                 isexploding = true;
-                sound("explode")
+
             }
         }
         else{
             this.i = 0;
             bullet.bulletPath = [];
             setFiring(false);
+
         }
     },
 

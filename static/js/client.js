@@ -1,7 +1,8 @@
 const connection = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
 
-let health_playerone;
-let health_playertwo;
+let current_health_playerone = 1024;
+let current_health_playertwo = 1024;
+
 
 (function ($) {
 
@@ -25,7 +26,8 @@ let health_playertwo;
 
     connection.onmessage = function (event) {
         console.log('received', event.data);
-        let msg = JSON.parse(event.data);
+        //let msg = JSON.parse(event.data);
+        msg = JSON.parse(event.data);
         console.log('json', msg);
         manageTrajectory(msg);
         switch (msg.type) {
@@ -54,6 +56,7 @@ let health_playertwo;
                 $("#menunew").removeClass("hidden");
 
                 manageTurns(msg);
+
                 //manageTrajectory(msg);
 
                 break;
@@ -77,6 +80,8 @@ let health_playertwo;
                     let ele = msg.elevation.valueOf();
                     bullet.muzzlePos(ele);
                 }
+
+
                 //manageTrajectory(msg);
 
                 /*
@@ -107,22 +112,39 @@ let health_playertwo;
 
     function manageHealth(msg) {
 
-        if (msg.hasOwnProperty("guns")) {
-            let guns = currentgame.guns;
-            guns.forEach(gun=>{
-                if (gunnr == 0){
-                    console.log('gun 0');
-                    //health_playerone = msg.guns.;
-                }
+        let health_playerone = 0;
+        let health_playertwo = 0;
 
-                if (gunnr == 1){
-                    console.log('gun 1');
-                    //health_playertwo = health;
+        if (msg.hasOwnProperty("guns")) {
+
+            let guns = msg.guns;
+            let guncount = 0;
+
+            guns.forEach(gun=>{
+
+                console.log(gun.health);
+
+                if (guncount == 0){
+
+                    health_playerone = gun.health;
+                    console.log('gun 0', health_playerone);
+                    guncount += 1;
+                }
+                if (guncount == 1){
+                    health_playertwo = gun.health;
+                    console.log('gun 1', health_playertwo);
+
                 }
 
             })
-            // healthplayer -
-            let damage = 8; // Wert muss noch festgelegt werden
+
+            let h_p_1 = current_health_playerone - health_playerone;
+            let h_p_2 = current_health_playertwo - health_playertwo;
+
+            current_health_playerone = health_playerone;
+            current_health_playertwo = health_playertwo;
+
+            let damage = Math.max(h_p_1, h_p_2); // Wert muss noch festgelegt werden
 
             if (playerone) {
                 console.log('turn',myTurn);
@@ -170,9 +192,6 @@ let health_playertwo;
         $("#healthindicator-r").css({'x': x + damage + "vw", 'width': w - damage + "vw"});
     }
 
-    function sendMSG(msg){
-        connection.send(msg);
-    }
 
     function manageTurns(msg) {
 
@@ -311,3 +330,4 @@ let health_playertwo;
 
 
 })(jQuery)
+

@@ -186,30 +186,13 @@ window.onload = function () {
         //bullet.draw(b_ctx);
         bullet.trajectory(b_ctx);
         if (isexploding) {
-            updateExplosion(5, explosion);
+            updateExplosion(3, explosion);
             //f_ctx.drawImage(explosionImage, 0, 0, 64, 64, 0, 0, 64, 64);
             drawExplosion(b_ctx, explosion, dx, dy);
+            sound("explode");
         }
 
         b_ctx.translate(0, -height);
-
-        //}
-        //barrel.draw(f_ctx);
-        //barrel.elevate(f_ctx, cannon.x_pos, cannon.cannonY);
-
-
-        //let deg = getElevation();
-
-        //barrel.elevate(f_ctx, x_pos,y_pos , deg*0.05);
-        //barrel.draw(f_ctx);
-
-
-
-
-
-
-        //b_ctx.drawImage(cannon.img, 0, 0, 200, 100)
-
 
 
         // Collision detection macht der Server

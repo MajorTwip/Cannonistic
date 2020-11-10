@@ -17,7 +17,7 @@ let oldY = 0;
 
 // Turn controls
 let playerone = false;
-let playertwo = false;
+
 
 let handleInput = function() {
     $("#foreground_canvas").bind("mousedown", function(e){
@@ -58,10 +58,10 @@ function load(){
         $("#powerindicator-r").addClass('loadpower');
     }
     //let banner = document.querySelector('#powerindicator-l')
-    if (v0 < 1024) {
-        v0+=4;
+    //if (v0 < 1024) {
+    //    v0+=4;
         //console.log('v0: ', v0);
-    }
+    //}
 }
 
 // JSON-Object should now match to JSON-Schema

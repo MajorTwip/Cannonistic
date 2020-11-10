@@ -40,7 +40,7 @@ function updateExplosion(ftp, exp){
 }
 
 function drawExplosion(context,exp, dx, dy){
-    context.drawImage(explosionImage, sx, sy, exp.width, exp.height, dx, dy, 100, 100);
+    context.drawImage(explosionImage, sx, sy, exp.width, exp.height, dx, dy, 150, 150);
 }
 
 
