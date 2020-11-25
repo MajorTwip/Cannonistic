@@ -43,11 +43,11 @@
 
 .frame{
     background:#e0e0de;
-    height:15vh;
+    height:18vh;
     //overflow:scroll;
     padding:0;
-
 }
+
 .frame > div:last-of-type{
     position:absolute;top:5px;width:100%;display:flex;
 }

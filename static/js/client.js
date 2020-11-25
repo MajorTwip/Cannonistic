@@ -1,5 +1,8 @@
 const connection = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
 
+let current_health_playerone = 1024;
+let current_health_playertwo = 1024;
+
 
 (function ($) {
 
@@ -23,7 +26,8 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     connection.onmessage = function (event) {
         console.log('received', event.data);
-        let msg = JSON.parse(event.data);
+        //let msg = JSON.parse(event.data);
+        msg = JSON.parse(event.data);
         console.log('json', msg);
         manageTrajectory(msg);
         switch (msg.type) {
@@ -52,6 +56,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 $("#menunew").removeClass("hidden");
 
                 manageTurns(msg);
+
                 //manageTrajectory(msg);
 
                 break;
@@ -69,11 +74,14 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
             case "turn":
 
                 manageTurns(msg);
+                manageHealth(msg);
 
                 if (msg.hasOwnProperty("lastele")) {
                     let ele = msg.elevation.valueOf();
                     bullet.muzzlePos(ele);
                 }
+
+
                 //manageTrajectory(msg);
 
                 /*
@@ -95,7 +103,6 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
         }
 
 
-
         if (msg.hasOwnProperty("trajectory")) {
             let trace = msg.trajectory.valueOf();
             bullet.bulletPath = trace;
@@ -103,11 +110,91 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
 
     };
 
-    function sendMSG(msg){
-        connection.send(msg);
+    function manageHealth(msg) {
+
+        let health_playerone = 0;
+        let health_playertwo = 0;
+
+        if (msg.hasOwnProperty("guns")) {
+
+            let guns = msg.guns;
+            let guncount = 0;
+
+            guns.forEach(gun=>{
+
+                console.log(gun.health);
+
+                if (guncount == 0){
+
+                    health_playerone = gun.health;
+                    console.log('gun 0', health_playerone);
+                    guncount += 1;
+                }
+                if (guncount == 1){
+                    health_playertwo = gun.health;
+                    console.log('gun 1', health_playertwo);
+
+                }
+
+            })
+
+            let h_p_1 = current_health_playerone - health_playerone;
+            let h_p_2 = current_health_playertwo - health_playertwo;
+
+            current_health_playerone = health_playerone;
+            current_health_playertwo = health_playertwo;
+
+            let damage = Math.max(h_p_1, h_p_2); // Wert muss noch festgelegt werden
+
+            if (playerone) {
+                console.log('turn',myTurn);
+                if (myTurn) {
+                    adaptLeftHealthIndicator(damage);
+
+                } else {
+                    adaptRightHealthIndicator(damage);
+                }
+            }
+
+            if (!playerone) {
+                if (myTurn) {
+                    adaptRightHealthIndicator(damage);
+                } else {
+                    adaptLeftHealthIndicator(damage);
+                }
+            }
+
+        }
     }
 
+    function adaptLeftHealthIndicator(damage){
+        let health_l = document.getElementById('healthindicator-l');
+        let current_with = getComputedStyle(health_l).width;
+        let str = current_with;
+        let tmp = str.substring(0, str.length - 2);
+        let wi = Math.round(parseFloat(tmp)) * 100 / innerWidth;
+        console.log('current-wi-l:', wi, 'innerwidth', innerWidth);
+        $("#healthindicator-l").css({'width': wi - damage + "vw"});
+    }
+
+    function adaptRightHealthIndicator(damage){
+        let health_r = document.getElementById('healthindicator-r');
+        let current_x = getComputedStyle(health_r).x;
+        let current_w = getComputedStyle(health_r).width;
+        let strx = current_x;
+        let strw = current_w;
+        let tmpx = strx.substring(0, strx.length - 2);
+        console.log('tmpx', tmpx);
+        let tmpw = strw.substring(0, strw.length - 2);
+        let x = Math.round(parseFloat(tmpx)) * 100 / innerWidth;
+        let w = Math.round(parseFloat(tmpw)) * 100 / innerWidth;
+        console.log('currentx-r:', current_x, 'x-r:', x, 'current-w-r', w, 'innerwidth', innerWidth);
+        $("#healthindicator-r").css({'x': x + damage + "vw", 'width': w - damage + "vw"});
+    }
+
+
     function manageTurns(msg) {
+
         currentgame = msg;
         if (msg.hasOwnProperty("state")) {
 
@@ -116,13 +203,14 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                     //console.log('state T1', $("#txt_youid").val());
                     setMyTurn(true);
                     handleInput();
+                    $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T1, noooo');
                     setMyTurn(false);
                     unbindHandler();
-;
+                    $("#turnindicator").html("Enemy's turn");
                 }
             }
 
@@ -130,12 +218,14 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 if ($("#txt_youid").val() == msg.gameid2) {
                     setMyTurn(true);
                     handleInput();
+                    $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T2, noooo');
                     setMyTurn(false);
                     unbindHandler();
+                    $("#turnindicator").html("Enemy's turn");
 
                 }
             }
@@ -152,6 +242,7 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
     //bind newgame to Button
     $("#btn_newgame").click(function () {
         playerone = true;
+
         if (connection.OPEN) {
             var msg = new Object();
             msg.gameid = "";
@@ -206,6 +297,17 @@ const connection = new WebSocket('ws://' + window.location.hostname + ":" + wind
                 $("#menudiv").hide();
                 $("#canvas").show();
                 $(".frame").show();
+                $("#turn").show();
+                $("#health").show();
+                if (playerone){
+                    $("#power-l").show();
+                }else{
+                    $("#power-r").show();
+                }
+
+                $(".svg").show();
+
         });
 
 })(jQuery)
+

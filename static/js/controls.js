@@ -18,7 +18,7 @@ let mouseY=-1;
 
 // Turn controls
 let playerone = false;
-let playertwo = false;
+
 
 let handleInput = function() {
     $("#foreground_canvas").bind("mousedown", function(e){
@@ -44,10 +44,16 @@ let handleInput = function() {
 
 // load
 function load(){
-    if (v0 < 1024) {
-        v0+=4;
-        //console.log('v0: ', v0);
+    if (playerone) {
+        $("#powerindicator-l").addClass('loadpower');
+    }else{
+        $("#powerindicator-r").addClass('loadpower');
     }
+    //let banner = document.querySelector('#powerindicator-l')
+    //if (v0 < 1024) {
+    //    v0+=4;
+        //console.log('v0: ', v0);
+    //}
 }
 
 // JSON-Object should now match to JSON-Schema
@@ -67,13 +73,36 @@ function sendToServer(gun, v, e) {
 // fire
 function fire() {
     //console.log("fire");
+
+    let power;
+    let firepower;
+    if (playerone) {
+        power = document.getElementById('powerindicator-l');
+        firepower = getComputedStyle(power).y;
+        $("#powerindicator-l").removeClass('loadpower');
+
+    }else{
+        power = document.getElementById('powerindicator-r');
+        firepower = getComputedStyle(power).y;
+        $("#powerindicator-r").removeClass('loadpower');
+    }
+
+    console.log("all:", firepower);
+    let str = firepower;
+    let fl = str.substring(0, str.length - 1);
+    let tmp = 100-parseFloat(fl);
+    v0 = 1024/100*tmp;
+    console.log("v0", Math.round(v0));
+    bullet.muzzlePos(parseInt(fl));
+    sendToServer(gunnr, Math.round(v0), getElevation());
+
     setGunNr();
-    sendToServer(gunnr, v0, getElevation());
+
     myTurn = false;
     firing = true;
     unbindHandler();
     v0 = 1;
-    elevation = 800;
+    //elevation = 800;
     bullet.i = 0;
 }
 
