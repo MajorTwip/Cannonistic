@@ -58,6 +58,7 @@ function load(){
 
 // JSON-Object should now match to JSON-Schema
 function sendToServer(gun, v, e) {
+    if(v<1)v=1;
     jsonObj_newturn = {
         "type": "newturn",
             "gunnr": gun,
