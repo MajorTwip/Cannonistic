@@ -13,7 +13,8 @@ let min_limit = - max_limit;
 let scaler = max_limit/90;
 
 // Handles mouse input
-let oldY = 0;
+let mouseX=-1;
+let mouseY=-1;
 
 // Turn controls
 let playerone = false;
@@ -26,21 +27,12 @@ let handleInput = function() {
     });
 
     $("#foreground_canvas").bind("mousemove", function(e) {
-
-        if (oldY > e.pageY) {
-            if (elevation >= min_limit) {
-                elevation = elevation - scaler;
-            }
-        } else {
-            if (elevation <= max_limit)  {
-                elevation = elevation + scaler;
-            }
-        }
-        //console.log("elevation: ", elevation)
-        oldY = e.pageY;
-
-        //console.log(elevation / scaler);
-
+        let canvas = document.getElementById("foreground_canvas");
+        let rect = canvas.getBoundingClientRect();
+        let scaleX = canvas.width / rect.width;
+        let scaleY = canvas.height / rect.height;
+        mouseX = (e.clientX - rect.left) * scaleX;
+        mouseY = canvas.height - ((e.clientY - rect.top) * scaleY);
     });
 
     $("#foreground_canvas").bind("mouseup", function(e){
@@ -66,10 +58,9 @@ function load(){
 
 // JSON-Object should now match to JSON-Schema
 function sendToServer(gun, v, e) {
-    setGunNr();
     jsonObj_newturn = {
         "type": "newturn",
-            "gunnr": gunnr,
+            "gunnr": gun,
             "v0" : Math.round(v),
             "elevation": Math.round(e)
     }
@@ -78,9 +69,11 @@ function sendToServer(gun, v, e) {
     connection.send(JSON.stringify(jsonObj_newturn));
 }
 
+
 // fire
 function fire() {
     //console.log("fire");
+
     let power;
     let firepower;
     if (playerone) {
@@ -102,6 +95,9 @@ function fire() {
     console.log("v0", Math.round(v0));
     bullet.muzzlePos(parseInt(fl));
     sendToServer(gunnr, Math.round(v0), getElevation());
+
+    setGunNr();
+
     myTurn = false;
     firing = true;
     unbindHandler();
@@ -136,7 +132,29 @@ function isFiring(){
 }
 
 function getElevation(){
-    return elevation;
+    if(currentgame==undefined)return NaN;
+    if(!currentgame.hasOwnProperty("guns"))return NaN;
+    console.log("calc")
+    let guns = currentgame.guns;
+    let ele = NaN
+    guns.forEach(gun=>{
+        if(gun.owner == $("#txt_youid").val()){
+            //calculate elevation
+            let deltaX=getMouseX()-gun.x;
+            let deltaY=getMouseY()-gun.y;
+            if(deltaY<=0)deltaY=1;
+            ele = 1600/(Math.PI/2)*Math.atan(deltaX/deltaY);//should be 0-tolerant, JS retorns on x/0 "INFINITY" and ArcTan INFINITY shoulb be 0...
+        };
+    });
+    return ele;
+};
+
+function getMouseX(){
+    return mouseX;
+}
+
+function getMouseY(){
+    return mouseY;
 }
 
 function getV0(){
@@ -159,6 +177,6 @@ function getGunNr(){
 if (isMyTurn()) {
     // Ready to go
     $(document).ready(function () {
-        console.log("register handlersS")
+        console.log("register handlers")
     });
 }
