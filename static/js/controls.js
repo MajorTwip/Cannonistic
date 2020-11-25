@@ -94,9 +94,9 @@ function fire() {
     v0 = 1024/100*tmp;
     console.log("v0", Math.round(v0));
     bullet.muzzlePos(parseInt(fl));
-    sendToServer(gunnr, Math.round(v0), getElevation());
 
     setGunNr();
+    sendToServer(gunnr, Math.round(v0), getElevation());
 
     myTurn = false;
     firing = true;

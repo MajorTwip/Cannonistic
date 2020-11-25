@@ -5,7 +5,9 @@ var maxwind = 100;
 
 function getDamage(xg,yg,x,y){
     var dist = Math.hypot(xg-x,yg-y);
-    var dmg = 512 - (dist*10);
+    dist = dist - 40;
+    if(dist<0)dist =0;
+    var dmg = 512 - (dist*2);
     if(dmg <0)dmg=0; 
     return Math.round(dmg);
 }
@@ -104,7 +106,8 @@ class Game {
         this.guns.forEach((g)=>{
             g.health -= getDamage(g.x,g.y,hitpt.x,hitpt.y);
             if(g.health<0)g.health=0;
-
+            console.log("" + g.x + ":" + g.y +":" + hitpt.x + ":" + hitpt.y + ":" + getDamage(g.x,g.y,hitpt.x,hitpt.y));
+            //console.log(g)
             if(g.health>0 && g.owner == this.gameid1)workingguns[0]++
             if(g.health>0 && g.owner == this.gameid2)workingguns[1]++
         });
