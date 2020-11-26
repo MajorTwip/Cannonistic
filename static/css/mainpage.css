@@ -12,7 +12,20 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
 
+#alertdiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  display: none;
+
+}
+
+#alertdiv > form{
+  background-color: lightcoral;
 }
 
 #menudiv > img{

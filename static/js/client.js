@@ -242,16 +242,20 @@ let current_health_playertwo = 1024;
         if($("#txt_gameid").val()==""){
             $("#txt_gameid").removeClass("hidden");
             $("#lbl_txt_gameid").removeClass("hidden");
+            $("#txt_pass").removeClass("hidden");
+            $("#lbl_txt_pass").removeClass("hidden");
             return;
         }
         if (connection.OPEN) {
             var msg = new Object();
             msg.gameid = $("#txt_gameid").val();
+            $.getScript("js/sha256-min.js");
+            msg.pass = hex_sha256($("#txt_pass").val());
             msg.type = "establish";
             connection.send(JSON.stringify(msg))
             console.log("requested join game")
         } else {
-            console.log("WebSocket seems to be offline");
+            alert("WebSocket seems to be offline");
         }
     });
 
@@ -265,9 +269,9 @@ let current_health_playertwo = 1024;
             $.getScript("js/sha256-min.js");
             msg.newpass = hex_sha256($("#txt_newpass").val());
             connection.send(JSON.stringify(msg))
-            console.log("set new name/pass")
+            alert("Please wait","set new name/pass")
         } else {
-            console.log("WebSocket seems to be offline");
+            alert("WebSocket seems to be offline");
         }
     });
 
@@ -287,6 +291,17 @@ let current_health_playertwo = 1024;
                 $(".svg").show();
 
         });
+
+        function alert(msg){
+            alert("Alert", msg);
+        }
+
+        function alert(title,msg){
+            console.log(title + " : " + msg)
+            $("#alertdiv h2").text(title);
+            $("#alertdiv p").text(msg);
+            $("#alertdiv").fadeIn( 300 ).delay( 1500 ).fadeOut( 300 );
+        }
 
 })(jQuery)
 

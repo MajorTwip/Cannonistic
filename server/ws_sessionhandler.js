@@ -38,8 +38,34 @@ async function establish(msg, sock){
     }else{
         //get game by gameid
         resp = await db.getGame(msg.gameid);
+        //Check Password
+        var passhash = ""
+        if(msg.gameid==resp.gameid1){
+            //player1
+            passhash = resp.pass1;
+        }else{
+            passhash = resp.pass2;
+        }
+        if(!(passhash=="" ||  passhash=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" )){ //no pass saved (the hash is the hash of "")
+            if(!msg.hasOwnProperty("pass")){
+                var errorevent = require("./messageObjects/toClient");
+                var errmsg = new errorevent.Error("Password required");
+                sock.send(errmsg);
+                return;
+            }
+            if(!msg.pass == passhash){
+                var errorevent = require("./messageObjects/toClient");
+                var errmsg = new errorevent.Error("wrong Password");
+                sock.send(errmsg);
+                return;
+            }
+        }
     }
     
+    if(msg.gameid==resp.gameid1){
+        //player1
+
+    }
     //bind gameid to sock
     sock.gameid = msg.gameid;
 
