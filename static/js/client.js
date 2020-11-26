@@ -266,8 +266,6 @@ let current_health_playertwo = 1024;
             msg.newpass = hex_sha256($("#txt_newpass").val());
             connection.send(JSON.stringify(msg))
             console.log("set new name/pass")
-            $("#menudiv").addClass("hidden");
-            $("#canvas").removeClass("hidden");
         } else {
             console.log("WebSocket seems to be offline");
         }

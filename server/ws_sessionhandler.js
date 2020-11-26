@@ -61,16 +61,23 @@ async function establish(msg, sock){
 
 async function setupass(msg, sock){
     //prepare response
-    var resp;
-    
-    //db.setupass(msg.gameid, msg.newname, msg.newpass);
+    var name = ""
+    if(msg.hasOwnProperty("newname")){
+        name = msg.newname;
+    }
 
+    var pass = ""
+    if(msg.hasOwnProperty("newpass")){
+        pass = msg.newpass;
+    }
+    
+    db.setupass(sock.gameid,name,pass)
 
     var userevent = require("./messageObjects/toClient")
-    var namechange = new userevent.Userevent(msg.gameid,undefined);
+    var namechange = new userevent.Userevent(sock.gameid,name);
     namechange.setNamechange();
 
-    gameid = await db.getGameId(msg.gameid);
+    gameid = await db.getGameId(sock.gameid);
     directory.sendToGame(gameid, namechange.toJson())
 }
 

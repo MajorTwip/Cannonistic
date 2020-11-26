@@ -247,11 +247,45 @@ function _newGun(games_id, gun) {
     });
 }
 
+function saveGame(game) {
+    var promises = new Array();
+    promises.push(_saveGame(game))
+    game.guns.forEach(gun => {
+        promises.push(_saveGun(game.id, gun));
+    });
+    return Promise.all(promises).then(()=>true)
+}
+
+function setupass(gameid,name,pass) {
+    var sql = "";
+    var params;
+    if(name!=""){
+        sql = "UPDATE games SET name1 = ? WHERE gameid1 = ?;"
+        params = [name, gameid];
+        _db.run(sql, params,(err)=>{if(err) console.error(err.message);});
+
+        sql = "UPDATE games SET name2 = ? WHERE gameid2 = ?;"
+       _db.run(sql, params,(err)=>{if(err) console.error(err.message);});
+    }
+
+
+    if(pass!=""){
+        sql = "UPDATE games SET pass1 = ? WHERE gameid1 = ?;"
+        params = [pass, gameid];
+        _db.run(sql, params,(err)=>{if(err) console.error(err.message);});
+
+        sql = "UPDATE games SET pass2 = ? WHERE gameid2 = ?;"
+        _db.run(sql, params,(err)=>{if(err) console.error(err.message);});
+    }
+
+}
+
 module.exports = {
     init: init,
     gameIdcollision: gameIdcollision,
     saveGame: saveGame,
     getGame: getGame,
     getGameId: getGameId,
-    newgame: newgame
+    newgame: newgame,
+    setupass: setupass
 }
