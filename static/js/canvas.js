@@ -65,9 +65,6 @@ window.onload = function () {
         f_ctx.setTransform(1, 0, 0, 1, 0, 0)
         f_ctx.clearRect(0, 0, f_canvas.width, f_canvas.height);
 
-        //debug indicator
-        f_ctx.fillRect(-2, -2, 20, 50 * Math.random());
-
         if(currentgame!==undefined){
             if(currentgame.hasOwnProperty("guns")){
                 let guns = currentgame.guns;
@@ -91,6 +88,27 @@ window.onload = function () {
 
     }
 
+    function drawWindbag(wind){
+        f_ctx.setTransform(1, 0, 0, 1, 0, 0)
+        f_ctx.translate(2048, translateY(300));
+
+        //draw pole
+        f_ctx.fillStyle = "black"
+        f_ctx.fillRect(-5, 0, 5, 100)
+
+        f_ctx.fillStyle = "red"
+        f_ctx.rotate(-(wind/1024*Math.PI/2));
+        f_ctx.beginPath();
+        f_ctx.moveTo(0, 0);   
+        f_ctx.lineTo(20, 30);  
+        f_ctx.lineTo(10, 70);   
+        f_ctx.lineTo(-10, 70);   
+        f_ctx.lineTo(-20, 30);  
+        f_ctx.closePath();  
+        f_ctx.fill()
+        f_ctx.stroke();
+    }
+
     function drawCannon(x, y, ele) {
         if (!barrel.complete && barrel.naturalHeight != 0) return;
         if (!tank.complete && tank.naturalHeight != 0) return;
@@ -112,9 +130,6 @@ window.onload = function () {
             f_ctx.setTransform(transform)
             deltaele_rad = Math.PI / 2 - deltaele_rad
         }
-        //debug
-        f_ctx.fillStyle = "pink"
-        f_ctx.fillRect(-2, -2, 4, 4)
 
         //sub half of size to put center on coord (in y negated)
         f_ctx.drawImage(tank, -tankpivotX / scalingFactor, -tankpivotY / scalingFactor, tank.naturalWidth / scalingFactor, tank.naturalHeight / scalingFactor);
@@ -134,6 +149,9 @@ window.onload = function () {
 
     function update() {
         drawCannons();
+        if(currentgame!==undefined && currentgame.hasOwnProperty("wind")){
+            drawWindbag(currentgame.wind);
+        }
         let animation = requestAnimationFrame(update);
 
         b_ctx.clearRect(0, 0, width, height);
