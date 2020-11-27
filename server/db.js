@@ -73,7 +73,7 @@ function _getGame(gameid) {
                 console.warn(err.message);
                 reject(err);
             }else if(row==undefined){
-                return reject("unknown gameid");
+                return reject("unknown GameId");
             } else {
                 var Gamelogic = require("./gamelogic");
                 var game = new Gamelogic.Game(row.gameid1, row.gameid2);
