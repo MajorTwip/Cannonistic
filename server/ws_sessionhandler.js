@@ -38,6 +38,14 @@ async function establish(msg, sock){
     }else{
         //get game by gameid
         resp = await db.getGame(msg.gameid);
+
+        if(typeof resp == "string"){
+            console.log("database-error: " + resp)
+            var errorevent = require("./messageObjects/toClient");
+            var errmsg = new errorevent.Error(resp,500);
+            sock.send(errmsg.toJson());
+            return;
+        }
         //Check Password
         var passhash = ""
         if(msg.gameid==resp.gameid1){
@@ -47,16 +55,19 @@ async function establish(msg, sock){
             passhash = resp.pass2;
         }
         if(!(passhash=="" ||  passhash=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" )){ //no pass saved (the hash is the hash of "")
-            if(!msg.hasOwnProperty("pass")){
+            console.log("check pass for " + msg.gameid + ", should be " + passhash)
+            if(!msg.hasOwnProperty("pass")  ||  msg.pass=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" ){
+                console.log("no pass given")
                 var errorevent = require("./messageObjects/toClient");
-                var errmsg = new errorevent.Error("Password required");
-                sock.send(errmsg);
+                var errmsg = new errorevent.Error("Password required",401);
+                sock.send(errmsg.toJson());
                 return;
             }
-            if(!msg.pass == passhash){
+            if(!(msg.pass == passhash)){
+                console.log("wrong pass given")
                 var errorevent = require("./messageObjects/toClient");
-                var errmsg = new errorevent.Error("wrong Password");
-                sock.send(errmsg);
+                var errmsg = new errorevent.Error("wrong Password",402);
+                sock.send(errmsg.toJson());
                 return;
             }
         }

@@ -93,11 +93,7 @@ let current_health_playertwo = 1024;
 
             case "error":
                 if (msg.hasOwnProperty("message")) {
-                    if (msg.message == "Not your turn") {
-                        console.log("Not your turn");
-                        setMyTurn(false);
-                        unbindHandler();
-                    }
+                    alert(msg.message)
                 }
                 break;
         }
@@ -292,14 +288,13 @@ let current_health_playertwo = 1024;
 
         });
 
-        function alert(msg){
-            alert("Alert", msg);
-        }
-
-        function alert(title,msg){
+        function alert(msg,title){
+            if(title==undefined){
+                title="Alert"
+            }
             console.log(title + " : " + msg)
-            $("#alertdiv h2").text(title);
-            $("#alertdiv p").text(msg);
+            $("#alerttitle").text(title);
+            $("#alerttext").text(msg);
             $("#alertdiv").fadeIn( 300 ).delay( 1500 ).fadeOut( 300 );
         }
 

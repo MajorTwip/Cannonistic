@@ -60,7 +60,7 @@ function getGame(gameid) {
         var g = vals[0];
         g.guns = vals[1];
         return g;
-    })
+    }).catch(e=>{return e})
 }
 
 function _getGame(gameid) {
@@ -72,6 +72,8 @@ function _getGame(gameid) {
             if (err) {
                 console.warn(err.message);
                 reject(err);
+            }else if(row==undefined){
+                return reject("unknown gameid");
             } else {
                 var Gamelogic = require("./gamelogic");
                 var game = new Gamelogic.Game(row.gameid1, row.gameid2);
