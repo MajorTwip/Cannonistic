@@ -1,7 +1,7 @@
 var v0scale = 1/10;
 var gravityScale = 1/10;
-var windScale = 1/1000;
-var maxwind = 100;
+var windScale = 1/3000;
+var maxwind = 1024;
 
 function getDamage(xg,yg,x,y){
     var dist = Math.hypot(xg-x,yg-y);
@@ -121,7 +121,7 @@ class Game {
         this.lastV0 = msg.v0;
         this.lastele = msg.lastele;
         this.lastwind = this.wind;
-        this.wind = Math.round(Math.random() - 0.5 * 2 * maxwind);
+        this.wind = Math.round((Math.random() - 0.5) * 2 * maxwind);
 
 
     }
