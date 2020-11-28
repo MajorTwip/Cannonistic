@@ -101,10 +101,9 @@ function fire() {
 
     myTurn = false;
     firing = true;
-    unbindHandler();
     v0 = 1;
-    //elevation = 800;
     bullet.i = 0;
+    unbindHandler();
 }
 
 function unbindHandler(){

@@ -114,79 +114,76 @@ let current_health_playertwo = 1024;
         if (msg.hasOwnProperty("guns")) {
 
             let guns = msg.guns;
-            let guncount = 0;
 
             guns.forEach(gun=>{
 
-                console.log(gun.health);
-
-                if (guncount == 0){
+                if (gun.gunnr == 0){
 
                     health_playerone = gun.health;
                     console.log('gun 0', health_playerone);
-                    guncount += 1;
-                }
-                if (guncount == 1){
-                    health_playertwo = gun.health;
-                    console.log('gun 1', health_playertwo);
-
-                }
-
-            })
-
-
-            if (playerone) {
-                console.log('turn',myTurn);
-                if (myTurn) {
                     adaptLeftHealthIndicator(health_playerone);
 
-                } else {
+                }
+                if (gun.gunnr == 1){
+                    health_playertwo = gun.health;
+                    console.log('gun 1', health_playertwo);
                     adaptRightHealthIndicator(health_playertwo);
-                }
-            }
 
-            if (!playerone) {
-                if (myTurn) {
-                    adaptRightHealthIndicator(health_playerone);
-                } else {
-                    adaptLeftHealthIndicator(health_playertwo);
                 }
-            }
+            })
 
         }
+
+
     }
 
     function adaptLeftHealthIndicator(health){
-        let health_l = document.getElementById('healthindicator-l');
-        let width = Math.round(40*health/1204);
+        let width = Math.round(40*health/1024);
         $("#healthindicator-l").css({'width': width + "vw"});
     }
 
     function adaptRightHealthIndicator(health){
-        let health_r = document.getElementById('healthindicator-r');
-        let width = Math.round(40*health/1204);
+        let width = Math.round(40*health/1024);
         let x = 55 + (40-width);
         $("#healthindicator-r").css({'x': x + "vw", 'width': width + "vw"});
     }
 
-
     function manageTurns(msg) {
+
+        if (msg.type == "initgame"){
+            isexploded = true;
+        }
 
         currentgame = msg;
         if (msg.hasOwnProperty("state")) {
+
+            if (msg.state == "W1" && playerone || msg.state == "W2" && !playerone){
+
+                alert("You win!!!", "Game over");
+                $("#turnindicator").html("you have won!!");
+                setReloadTimeOut(5000);
+
+            }
+
+            if (msg.state == "W1" && !playerone || msg.state == "W2" && playerone){
+
+                alert("You loose!!!", "Game over");
+                $("#turnindicator").html("you have lost!!");
+                setReloadTimeOut(5000);
+            }
 
             if (msg.state == "T1") {
                 if ($("#txt_youid").val() == msg.gameid1) {
                     //console.log('state T1', $("#txt_youid").val());
                     setMyTurn(true);
-                    handleInput();
+                    //handleInput();
                     $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T1, noooo');
                     setMyTurn(false);
-                    unbindHandler();
+                    //unbindHandler();
                     $("#turnindicator").html("Enemy's turn");
                 }
             }
@@ -194,14 +191,14 @@ let current_health_playertwo = 1024;
             else if (msg.state == "T2") {
                 if ($("#txt_youid").val() == msg.gameid2) {
                     setMyTurn(true);
-                    handleInput();
+                    //handleInput();
                     $("#turnindicator").html("Your turn");
 
                 }
                 else {
                     //console.log(' T2, noooo');
                     setMyTurn(false);
-                    unbindHandler();
+                    //unbindHandler();
                     $("#turnindicator").html("Enemy's turn");
 
                 }
@@ -295,7 +292,17 @@ let current_health_playertwo = 1024;
             console.log(title + " : " + msg)
             $("#alerttitle").text(title);
             $("#alerttext").text(msg);
-            $("#alertdiv").fadeIn( 300 ).delay( 1500 ).fadeOut( 300 );
+            $("#alertdiv").fadeIn( 300 ).delay( 2500 ).fadeOut( 300 );
+        }
+
+        function setReloadTimeOut(timeout){
+            setTimeout(function () {
+                reload();
+            }, timeout);
+        }
+
+        function reload(){
+            location.reload();
         }
 
 })(jQuery)

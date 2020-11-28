@@ -56,6 +56,12 @@ let bullet = {
                 isexploding = true;
 
             }
+
+            if (this.i == traceLength-1 ) {
+                isexploded = true;
+                console.log("isexploded ",isexploded)
+
+            }
         }
         else{
             this.i = 0;

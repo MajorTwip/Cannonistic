@@ -10,8 +10,11 @@ let barrel_height;
 
 let scalingFactor;
 let isexploding = false;
+let isexploded = false;
 let dx;
 let dy;
+
+
 
 window.onload = function () {
 
@@ -167,6 +170,15 @@ window.onload = function () {
             drawExplosion(b_ctx, explosion, dx, dy);
             sound("explode");
         }
+        //isexploded = true;
+
+        if (isexploded){
+            if (myTurn) {
+                handleInput();
+            }
+            isexploded = false;
+        }
+
 
         b_ctx.translate(0, -height);
 
