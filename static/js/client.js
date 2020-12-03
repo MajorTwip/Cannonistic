@@ -6,9 +6,17 @@ let current_health_playertwo = 1024;
 
 (function ($) {
 
-    //const connection = new WebSocket('ws://' + window.location.hostname + ":" + window.location.port);
+    //popullate gameID from query
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if(urlParams.has("gameID")){
+            $("#txt_gameid").val(urlParams.get("gameID"));
+            $("#txt_gameid").removeClass("hidden");
+            $("#lbl_txt_gameid").removeClass("hidden");
+            $("#txt_pass").removeClass("hidden");
+            $("#lbl_txt_pass").removeClass("hidden");
+    }
 
-    //const connection = new WebSocket();
 
     connection.onopen = function () {
         //connection.send("connected");
@@ -226,6 +234,26 @@ let current_health_playertwo = 1024;
         } else {
             console.log("WebSocket seems to be offline");
         }
+    });
+    
+    function copyToClipbioard(txt){
+          var $temp = $("<input>");
+          $("body").append($temp);
+          $temp.val(txt).select();
+          document.execCommand("copy");
+          $temp.remove();
+    }
+    
+        //bind copygameid to Button
+    $("#btn_copygameid").click(function () {
+        let url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "?gameID=" + $("#txt_youid").val()
+        copyToClipbioard(url)
+    });
+    
+    //bind copygameid to Button
+    $("#btn_copyenyid").click(function () {
+        let url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "?gameID=" + $("#txt_enyid").val()
+        copyToClipbioard(url)
     });
 
     //bind  to Button
