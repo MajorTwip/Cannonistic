@@ -45,17 +45,23 @@ let current_health_playertwo = 1024;
 
                 //gameid is empty, so this is a new game and you are player 1
                 if ($("#txt_gameid").val() == "") {
+                    console.log("no gameID, must be new game")
+                    playerone = true;
                     $("#txt_youid").val(msg.gameid1);
                     $("#txt_enyid").val(msg.gameid2);
                 }
                 //gameid corresponds with gameid1, so you are player 1
                 else if($("#txt_gameid").val() == msg.gameid1) {
+                    playerone = true;
+                    console.log("gameID = gameid1, you are player one")
                     $("#txt_youid").val(msg.gameid1);
                     $("#txt_enyid").val(msg.gameid2);
                 }
 
                 //else you must be player 2
                 else {
+                    console.log("gameID != gameid1, you are player two")
+                    playerone = false;
                     $("#txt_enyid").val(msg.gameid1);
                     $("#txt_youid").val(msg.gameid2);
                 }
@@ -64,8 +70,13 @@ let current_health_playertwo = 1024;
                 $("#menunew").removeClass("hidden");
 
                 manageTurns(msg);
+                manageHealth(msg);
 
-                //manageTrajectory(msg);
+                if (msg.hasOwnProperty("lastele")) {
+                    let ele = msg.elevation.valueOf();
+                    bullet.muzzlePos(ele);
+                }
+
 
                 break;
 
@@ -259,7 +270,6 @@ let current_health_playertwo = 1024;
     //bind  to Button
     $("#btn_joingame").click(function () {
         console.log("Joingame selected")
-        playerone = false;
         if($("#txt_gameid").val()==""){
             $("#txt_gameid").removeClass("hidden");
             $("#lbl_txt_gameid").removeClass("hidden");
