@@ -257,13 +257,21 @@ let current_health_playertwo = 1024;
     
         //bind copygameid to Button
     $("#btn_copygameid").click(function () {
-        let url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "?gameID=" + $("#txt_youid").val()
+        let port = window.location.port;
+        if(port!=""){
+            port = ":" + port
+        }
+        let url = window.location.protocol + "//" + window.location.hostname + port + "?gameID=" + $("#txt_youid").val()
         copyToClipbioard(url)
     });
     
     //bind copygameid to Button
     $("#btn_copyenyid").click(function () {
-        let url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "?gameID=" + $("#txt_enyid").val()
+         let port = window.location.port;
+         if(port!=""){
+            port = ":" + port
+        }
+        let url = window.location.protocol + "//" + window.location.hostname + port + "?gameID=" + $("#txt_enyid").val()
         copyToClipbioard(url)
     });
 
